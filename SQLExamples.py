@@ -29,6 +29,12 @@ def main_example():
                 VALUES (?, ?, ?)
                 ''', Dalen)
 
+    #
+    ##
+    ### HEY PAY ATTENTION THIS IS WHERE OUTPUT HAPPENS
+    ##
+    #
+    
     print "Let's see if that worked, shall we?"
     # This command selects everything in the roommates table
     SQL.execute('''
@@ -53,6 +59,12 @@ def main_example():
                     INSERT INTO roommates
                     VALUES (?, ?, ?)
                     ''', DalensRoomies)
+
+    #
+    ##
+    ### HEY PAY ATTENTION MORE OUTPUT
+    ##
+    #
 
     print '''Let's see if that worked, but this time only
     check for my roommates who are 19.'''
