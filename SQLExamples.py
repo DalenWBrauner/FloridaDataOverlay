@@ -80,7 +80,13 @@ def main_example():
         print thing
     print "There you have it!"
 
-    print "\nI have no idea what's up with these 'u's."
+    print "\nDon't worry about the 'u's, they just mean the strings are in unicode, see?"
+    for row in result:
+        for datum in row:
+            print datum, type(datum)
+    print "I'm not making sweeping assumptions here what are you talking about"
+
+    
     # This deletes the table so the next time you run the code you don't get errors
     # for trying to create a table that already exists.
     SQL.execute('''DROP TABLE roommates''')
