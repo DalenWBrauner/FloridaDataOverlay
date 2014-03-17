@@ -1,4 +1,4 @@
-# Django settings for Florida_Data project.
+# Django settings for graph_render project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -82,7 +82,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '5uhv3kh)3%^^*ck)6oqv3!$=3(a!^quet00)e1i-scl3enovzf'
+SECRET_KEY = '-iqbxbk_8^(m+_b(47_km$6b8*5on&amp;(wp(nx_u1i987!-y%lq9'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -101,10 +101,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'Florida_Data.urls'
+ROOT_URLCONF = 'graph_render.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'Florida_Data.wsgi.application'
+WSGI_APPLICATION = 'graph_render.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
