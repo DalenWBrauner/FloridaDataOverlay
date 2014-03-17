@@ -1,3 +1,12 @@
+"""
+SQLExamples.py
+This file will hopefully give some insight into the process of
+reading/writing to the database.
+
+Written by Dalen W. Brauner
+Last Maintained: 03/17/2014
+"""
+
 def main_example():
     """This hopefully explains everything in
     http://docs.python.org/2/library/sqlite3.html
