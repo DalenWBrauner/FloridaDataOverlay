@@ -5,7 +5,7 @@ csv files in a given directory and returning them in a
 format suitible for the database.
 
 Written by Dalen W. Brauner
-Last Maintained: 03/17/2014
+Last Maintained: 03/18/2014
 """
 
 #
@@ -21,7 +21,7 @@ def Check_For_Updates(l1st):
     
     DATA = {}
     for filename in l1st:
-        result = Retrieve(filename)
+        result = Retrieve("Updates Go Here\\"+filename)
         if result:
             DATA[filename] = result
     
