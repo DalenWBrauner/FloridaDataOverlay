@@ -1,0 +1,2 @@
+births
+Year (int), County (text), Mother's_Age (int), Mother's_Education (text), Source (text), Repeat (int), Births (int)
