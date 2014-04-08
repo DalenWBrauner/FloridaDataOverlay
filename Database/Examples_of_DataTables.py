@@ -53,11 +53,17 @@ for x in xrange(len(query_cols)):
     elif sql_type == float:     datatable_type = "float"    #"number"?
     elif sql_type == int:       datatable_type = "number"
     elif sql_type == long:      datatable_type = "number"
-    elif sql_type == None:      raise TypeError("TELL THE DEVELOPER TO IMPLEMENT 'NULL COMPATIBILITY'.")
     elif sql_type == buffer:    datatable_type = "buffer"
-    else:
-        ERR = "Apparently my code doesn't like",str(sql_type),"very much."
-        raise TypeError(ERR)
+##    elif sql_type == None:
+##        index = 0
+##        while (sql_type == None: and index != len(database_output)):
+##            sql_type = database_output[index][x]
+##            index += 1
+##        if sql_type == None:
+##            # If we've searched every row and there's no sign of a type anywhere
+##            datatable_type = "string"
+    elif sql_type == None:      datatable_type = "string"
+    else:                       datatable_type = "string"
     query_schema[query_cols[x]] = datatable_type
 
 # BAM! WE'RE DONE WITH THE SCHEMA!
