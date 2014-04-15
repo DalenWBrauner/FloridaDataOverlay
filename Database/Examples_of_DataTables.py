@@ -29,13 +29,16 @@ user_query = '''
             FROM births
             WHERE County='Unknown'
             '''
-
 # Everything from here down should work FOR ALL queries.
+
+# Sends the query to the database
 SQL.execute(user_query)
+# Sticks the database's response into 'database_output'
 database_output = SQL.fetchall()
 
 
-# Before anything else, we need to know our columns.
+# Before anything else, we need to know what our columns are.
+# This is a fancy way of asking the database for them.
 query_cols = []
 for toople in SQL.description:
     query_cols.append(toople[0])
@@ -43,7 +46,8 @@ for toople in SQL.description:
 
 ###
 print query_cols
-### Which should come out to ["year","county","age","edu","source","repeat","births"]
+### Which should come out to
+### ["year","county","age","edu","source","repeat","births"]
 
 # Next, we construct our schema:
 query_schema = {}
@@ -54,6 +58,7 @@ for x in xrange(len(query_cols)):
     elif sql_type == int:       datatable_type = "number"
     elif sql_type == long:      datatable_type = "number"
     elif sql_type == buffer:    datatable_type = "buffer"
+##    Pretend this doesn't exist:
 ##    elif sql_type == None:
 ##        index = 0
 ##        while (sql_type == None: and index != len(database_output)):
