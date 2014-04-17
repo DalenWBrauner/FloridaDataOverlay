@@ -8,9 +8,8 @@ Written by Dalen W. Brauner
 Last Maintained: 04/15/2014
 """
 
-#
-## PUBLIC FUNC()S
 
+## PUBLIC FUNC()S
 def Prep_For_The_Database(how_so,csv):
     """
     Preps specific .csv files for entry into the database.
@@ -19,12 +18,12 @@ def Prep_For_The_Database(how_so,csv):
     ERR += " :: '"+how_so+"'\nERROR:\t"
 
     if   how_so == "Florida Charts_First Births.csv":
-        print "FORMATTING '" + how_so + "' INCOMPLETE"
+        print "FORMATTING '" + how_so + "'...",
         ERR += " :: 'Florida Charts_First Births.csv'\nERROR:\t"
         return _Format_FLCharts_Births(csv,ERR,0)
 
     elif how_so == "Florida Charts_Repeat Births.csv":
-        print "FORMATTING '" + how_so + "' INCOMPLETE"
+        print "FORMATTING '" + how_so + "'...",
         return _Format_FLCharts_Births(csv,ERR,1)
         
     elif how_so == "Florida Charts_Diseases.csv":
@@ -44,7 +43,6 @@ def Prep_For_The_Database(how_so,csv):
         raise Exception(ERR)
 
 
-#
 ## PRIVATE FUNC()S
 def _Format_FLCharts_Births(csv,ERR,repeat):
     
@@ -127,11 +125,11 @@ def _Format_FLCharts_Births(csv,ERR,repeat):
                    columns[COL][ROW])   #Births
             final_tuples.append(tup)
 
+    print "COMPLETE!"
     return final_tuples
 
-#
-## DEBUG FUNC()S
 
+## DEBUG FUNC()S
 def _debug_Print_The_Data(csv):
     """It ain't pretty, but"""
     for row in csv:

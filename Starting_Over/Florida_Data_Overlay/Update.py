@@ -16,11 +16,11 @@ from Overlay.models import Births
 ## STATIC VARS
 from os import curdir as CURRENT_DIRECTORY
 UPDATE_DIRECTORY = CURRENT_DIRECTORY + '\\Updates Go Here'
-UPDATE_THESE = ["Florida Charts = First Births.csv",
-                "Florida Charts = Repeat Births.csv",
-                "Florida Charts = Diseases.csv",
-                "Florida Health = Births.csv",
-                "Florida Health = Diseases.csv"]
+UPDATE_THESE = ["Florida Charts_First Births.csv",
+                "Florida Charts_Repeat Births.csv",
+                "Florida Charts_Diseases.csv",
+                "Florida Health_Births.csv",
+                "Florida Health_Diseases.csv"]
 DATABASE_LOCATION = CURRENT_DIRECTORY + '\\SQLite3.db'
 
 
@@ -56,19 +56,21 @@ def Upload(where_from,data):
     Uploads data to the database; this is handled differently
     depending on which csv it came from.
     """
+    print "UPLOADING '" + where_from + "'...",
     if (where_from == UPDATE_THESE[0]) or (where_from == UPDATE_THESE[1]):
         for line in data:
-            with Births(year=line[0],
-                        county=line[1],
-                        mothersAge=line[2],
-                        mothersEdu=line[3],
-                        source=line[4],
-                        isRepeat=[5],
-                        births=[6]) as New_Entry:
-                New_Entry.save()
+            Births(year=        int(line[0]),
+                   county=          line[1],
+                   mothersAge=  int(line[2]),
+                   mothersEdu=      line[3],
+                   source=          line[4],
+                   isRepeat=    int(line[5]),
+                   births=      int(line[6]),
+                   ).save()
     else:
         ERR = "No upload procedure written for " + where_from
         raise TypeError(ERR)
+    print "COMPLETE!"
         
 def main():
     updates = Check_For_Updates(UPDATE_THESE)
