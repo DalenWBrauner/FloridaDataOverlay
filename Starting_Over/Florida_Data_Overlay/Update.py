@@ -18,7 +18,10 @@ from os import curdir as CURRENT_DIRECTORY
 UPDATE_DIRECTORY = CURRENT_DIRECTORY + '\\Updates Go Here'
 UPDATE_THESE = ["Florida Charts_First Births.csv",
                 "Florida Charts_Repeat Births.csv",
-                "Florida Charts_Diseases.csv",
+##                "Florida Charts_AIDS Cases.csv",
+##                "Florida Charts_HIV Cases.csv",
+##                "Florida Charts_HIVAIDS Age.csv",
+##                "Florida Charts_HIVAIDS Crude.csv",
                 "Florida Health_Births.csv",
                 "Florida Health_Diseases.csv"]
 DATABASE_LOCATION = CURRENT_DIRECTORY + '\\SQLite3.db'
@@ -67,6 +70,16 @@ def Upload(where_from,data):
                    isRepeat=    int(line[5]),
                    births=      int(line[6]),
                    ).save()
+##    if (where_from == UPDATE_THESE[0]) or (where_from == UPDATE_THESE[1]):
+##        for line in data:
+##            Births(year=        int(line[0]),
+##                   county=          line[1],
+##                   mothersAge=  int(line[2]),
+##                   mothersEdu=      line[3],
+##                   source=          line[4],
+##                   isRepeat=    int(line[5]),
+##                   births=      int(line[6]),
+##                   ).save()
     else:
         ERR = "No upload procedure written for " + where_from
         raise TypeError(ERR)
@@ -74,7 +87,7 @@ def Upload(where_from,data):
         
 def main():
     updates = Check_For_Updates(UPDATE_THESE)
-        
+    
     for key in updates:
         updates[key] = Prep_For_The_Database(key, updates[key])
         Upload(key, updates[key])

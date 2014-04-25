@@ -26,9 +26,21 @@ def Prep_For_The_Database(how_so,csv):
         print "FORMATTING '" + how_so + "'...",
         return _Format_FLCharts_Births(csv,ERR,1)
         
-    elif how_so == "Florida Charts_Diseases.csv":
-        print "FORMATTING '" + how_so + "' INCOMPLETE"
-        _debug_Print_The_Data(csv)
+##    elif how_so == "Florida Charts_AIDS Cases.csv":
+##        print "FORMATTING '" + how_so + "'...",
+##        return _Format_FLCharts_Disease_Cases(csv,ERR,0)
+
+##    elif how_so == "Florida Charts_HIV Cases.csv":
+##        print "FORMATTING '" + how_so + "'...",
+##        return _Format_FLCharts_Disease_Cases(csv,ERR,1)
+
+##    elif how_so == "Florida Charts_HIVAIDS Crude.csv":
+##        print "FORMATTING '" + how_so + "'...",
+##        return _Format_FLCharts_Disease_Deaths(csv,ERR,0)
+
+##    elif how_so == "Florida Charts_HIVAIDS Age.csv":
+##        print "FORMATTING '" + how_so + "'...",
+##        return _Format_FLCharts_Disease_Deaths(csv,ERR,1)
         
     elif how_so == "Florida Health_Births.csv":
         print "FORMATTING '" + how_so + "' INCOMPLETE"
@@ -128,6 +140,17 @@ def _Format_FLCharts_Births(csv,ERR,repeat):
     print "COMPLETE!"
     return final_tuples
 
+
+##def _Format_FLCharts_Disease_Cases(csv,ERR,HIVAIDS):
+##
+##    print "COMPLETE!"
+##    return final_tuples
+
+
+##def _Format_FLCharts_Disease_Deaths(csv,ERR,CrudeAge):
+##
+##    print "COMPLETE!"
+##    return final_tuples
 
 ## DEBUG FUNC()S
 def _debug_Print_The_Data(csv):
