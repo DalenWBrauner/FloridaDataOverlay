@@ -11,7 +11,7 @@ Last Maintained: 04/15/2014
 ## IMPORTS
 from Update_Helper import Prep_For_The_Database
 from Overlay.models import Births
-
+from django.db import transaction
 
 ## STATIC VARS
 from os import curdir as CURRENT_DIRECTORY
@@ -61,25 +61,27 @@ def Upload(where_from,data):
     """
     print "UPLOADING '" + where_from + "'...",
     if (where_from == UPDATE_THESE[0]) or (where_from == UPDATE_THESE[1]):
-        for line in data:
-            Births(year=        int(line[0]),
-                   county=          line[1],
-                   mothersAge=  int(line[2]),
-                   mothersEdu=      line[3],
-                   source=          line[4],
-                   isRepeat=    int(line[5]),
-                   births=      int(line[6]),
-                   ).save()
+        with transaction.atomic():
+            for line in data:
+                Births(year=        int(line[0]),
+                       county=          line[1],
+                       mothersAge=  int(line[2]),
+                       mothersEdu=      line[3],
+                       source=          line[4],
+                       isRepeat=    int(line[5]),
+                       births=      int(line[6]),
+                       ).save()
 ##    if (where_from == UPDATE_THESE[0]) or (where_from == UPDATE_THESE[1]):
-##        for line in data:
-##            Births(year=        int(line[0]),
-##                   county=          line[1],
-##                   mothersAge=  int(line[2]),
-##                   mothersEdu=      line[3],
-##                   source=          line[4],
-##                   isRepeat=    int(line[5]),
-##                   births=      int(line[6]),
-##                   ).save()
+##        with transaction.atomic():
+##            for line in data:
+##                Births(year=        int(line[0]),
+##                       county=          line[1],
+##                       mothersAge=  int(line[2]),
+##                       mothersEdu=      line[3],
+##                       source=          line[4],
+##                       isRepeat=    int(line[5]),
+##                       births=      int(line[6]),
+##                       ).save()
     else:
         ERR = "No upload procedure written for " + where_from
         raise TypeError(ERR)
