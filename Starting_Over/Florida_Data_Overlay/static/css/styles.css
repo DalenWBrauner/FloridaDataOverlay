@@ -1,0 +1,23 @@
+body {
+	color:#000305;
+	font-size: 80%;
+	font-family: 'Lucida Sans Unicode';
+	line-height: 1.5;
+	text-align:left;
+}
+
+.body{
+	margin: 0 auto;
+	width: 75%;
+	clear: both;
+}
+
+.side{
+	height: 800 px;
+	width: 20%;
+	float: left;
+	margin: 2% 1% 2% 1%;
+	border-radius: 7px;
+	background-color: #F8F8F8;
+	overflow: auto;
+}
