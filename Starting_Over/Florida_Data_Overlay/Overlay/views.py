@@ -11,7 +11,7 @@ from Overlay.models import Births
 def basic(request):
 #    list = Births.objects.order_by('-County')[:5]
 #    my_list = (Births.objects.all().order_by('-county'))[:5]
-    my_list=Births.objects.all()
+    my_list=Births.objects.values('county').distinct()
     template=loader.get_template('base.html')
     context=RequestContext(request, {'my_list': my_list})
     
