@@ -8,6 +8,20 @@ class Births(models.Model):
     source = models.URLField("Source")
     isRepeat = models.BooleanField("Is a Repeat Birth")
     births = models.IntegerField("Births")
+    
+    def get_fields(self):
+        fields = []
+        for f in self._meta.fields:
+            fields.append(f.name)
+
+        return fields
+
+    def get_names(self):
+        names = []
+        for f in self._meta.fields:
+            names.append(self._meta.get_field(f.name).verbose_name.title())
+
+        return names
 
     def __unicode__(self):
         s = "In " + self.county + " county, " + str(self.year)
