@@ -9,6 +9,10 @@ class Births(models.Model):
     isRepeat = models.BooleanField("Is a Repeat Birth")
     births = models.IntegerField("Births")
 
+    def get_names(self):
+        for f in self._meta.fields:
+            print self._meta.get_field(f.name).verbose_name.title()
+
     def __unicode__(self):
         s = "In " + self.county + " county, " + str(self.year)
         s += ", there were " + str(self.births)
