@@ -18,12 +18,14 @@ def basic(request):
     return HttpResponse(template.render(context))
 
 def year(request, cnty):
+    
     my_list = Births.objects.all().filter(county__exact = cnty).order_by('-year').values('year').distinct()
     template = loader.get_template('years.html')
-    context = RequestContext(request, {'my_list': my_list})
+    context = RequestContext(request, {'county': cnty, 'my_list': my_list})
     
     return HttpResponse(template.render(context))
 
-def att(request, county, year):
+def att(request, cnty, yr):
     html='<html><body>derp</body></html>'
     return HttpResponse(html)
+
