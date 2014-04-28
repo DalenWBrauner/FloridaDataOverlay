@@ -21,10 +21,11 @@ UPDATE_THESE = ["Florida Charts_First Births.csv",      # 0
                 "Florida Charts_Repeat Births.csv",     # 1
                 "Florida Charts_AIDS Cases.csv",        # 2
                 "Florida Charts_HIV Cases.csv",         # 3
-##                "Florida Charts_HIVAIDS Age.csv",       # 4
-##                "Florida Charts_HIVAIDS Crude.csv",     # 5
+                "Florida Charts_HIVAIDS Age.csv",       # 4
+                "Florida Charts_HIVAIDS Crude.csv",     # 5
                 "Florida Health_Births.csv",            # 6
-                "Florida Health_Diseases.csv"]          # 7
+                "Florida Health_Diseases.csv",          # 7
+                ]
 DATABASE_LOCATION = CURRENT_DIRECTORY + '\\SQLite3.db'
 
 
