@@ -1,6 +1,27 @@
-{% extends "base.html" %}
-{% block content %}
+<DOCTYPE html>
+<html lang="en">
 
+<head>
+	<title>Counties</title>
+	<meta charset="utf-8" />
+	
+	<link rel="stylesheet" href="/static/css/styles.css" type="text/css"/>
+	<meta name="viewport content = "width-device-width, initial-scale=1.0">
+</head>
 
-
-{% endcontent %}
+<body class="body">
+	
+{% if my_list %}
+    <ul>
+    {% for Births in my_list %}
+        <li><a href="/overlay/{{ Births.county }}/{{Births.year}}">{{ Births.year }}</a></li>
+	{% endfor %}
+    </ul>
+{% endif %}
+	
+	<footer class="footer">
+		<p>copyright &copy 2014</p>
+	</footer>
+	
+</body>
+</html>
