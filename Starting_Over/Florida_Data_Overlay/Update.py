@@ -4,7 +4,7 @@ This file is designed to pull specified csv files in the given
 directory and upload them as new entries to the database.
 
 Written by Dalen W. Brauner
-Last Maintained: 04/15/2014
+Last Maintained: 04/28/2014
 """
 
 
@@ -13,6 +13,7 @@ from Update_Helper import Prep_For_The_Database
 from Overlay.models import Births, Diseases
 from django.db import transaction
 from time import time
+from os import rename
 
 ## STATIC VARS
 from os import curdir as CURRENT_DIRECTORY
@@ -98,5 +99,7 @@ def main():
     for key in updates:
         updates[key] = Prep_For_The_Database(key, updates[key])
         Upload(key, updates[key])
+        rename(UPDATE_DIRECTORY+'\\'+key,
+               UPDATE_DIRECTORY+'\\_UPLOADED ON '+str(time())+' '+key)
 
 if __name__ == "__main__":main()
