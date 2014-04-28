@@ -4,7 +4,7 @@
 <head>
 	<title>Counties</title>
 	<meta charset="utf-8" />
-	
+
 	<link rel="stylesheet" href="/static/css/styles.css" type="text/css"/>
 	<meta name="viewport content = "width-device-width, initial-scale=1.0">
 </head>
@@ -27,7 +27,7 @@
 			{% if my_list %}
     			<ul>
     				{% for Births in my_list %}
-        				<li><a href="/overlay/{{ Births.county }}/">{{ Births.county }}</a></li>
+        				<li><a href="/overlay/custom/{{ Births.county }}/">{{ Births.county }}</a></li>
 					{% endfor %}
     			</ul>
 				{% endif %}
@@ -36,6 +36,6 @@
 		<div id="footer">
 		</div>
 		</div>
-	  
+
   </body>
 </html>
