@@ -30,7 +30,7 @@
 		{% if my_list %}
     		<ul>
     			{% for Births in my_list %}
-       				 <li><a href="/overlay/{{ Births.county }}/{{Births.year}}">{{ Births.year }}</a></li>
+       				 <li><a href="/overlay/custom/{{ county }}/{{Births.year}}">{{ Births.year }}</a></li>
 				{% endfor %}
     		</ul>
     		{% endif %}
