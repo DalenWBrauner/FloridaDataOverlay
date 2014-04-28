@@ -86,6 +86,6 @@ STATIC_URL = '/static/'
 ##MAKE THIS NOT HARD CODED
 #https://docs.djangoproject.com/en/dev/howto/static-files/
 STATICFILES_DIRS = (
-    'C:/Python27/Scripts/Florida_Data_Overlay/static',
+    '/Users/bencarothers/Documents/Git_Repos/FloridaDataOverlay/Starting_Over/Florida_Data_Overlay/static/',
 )
 
