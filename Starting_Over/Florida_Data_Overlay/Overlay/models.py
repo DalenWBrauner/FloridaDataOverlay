@@ -9,10 +9,6 @@ class Births(models.Model):
     isRepeat = models.BooleanField("Is a Repeat Birth")
     births = models.IntegerField("Births")
 
-    def get_names(self):
-        for f in self._meta.fields:
-            print self._meta.get_field(f.name).verbose_name.title()
-
     def __unicode__(self):
         s = "In " + self.county + " county, " + str(self.year)
         s += ", there were " + str(self.births)
@@ -26,7 +22,7 @@ class Diseases(models.Model):
     year = models.IntegerField("Year")
     county = models.CharField("County",max_length=20)
     topic = models.CharField("Topic",max_length=50)
-    # Ailments:
+    # Topics:
     # HIV Cases
     # AIDS Cases
     # HIV+AIDS Deaths
@@ -38,6 +34,6 @@ class Diseases(models.Model):
     def __unicode__(self):
         s = "In " + self.county + " county, " + str(self.year)
         s += ", there were " + str(self.count) + " "
-        s += self.ailment + " (or " + str(self.rate)
+        s += self.topic + " (or " + str(self.rate)
         s += "%), according to " + self.source
         return s

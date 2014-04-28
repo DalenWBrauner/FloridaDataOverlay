@@ -10,20 +10,21 @@ Last Maintained: 04/15/2014
 
 ## IMPORTS
 from Update_Helper import Prep_For_The_Database
-from Overlay.models import Births
+from Overlay.models import Births, Diseases
 from django.db import transaction
+from time import time
 
 ## STATIC VARS
 from os import curdir as CURRENT_DIRECTORY
 UPDATE_DIRECTORY = CURRENT_DIRECTORY + '\\Updates Go Here'
-UPDATE_THESE = ["Florida Charts_First Births.csv",
-                "Florida Charts_Repeat Births.csv",
-##                "Florida Charts_AIDS Cases.csv",
-##                "Florida Charts_HIV Cases.csv",
-##                "Florida Charts_HIVAIDS Age.csv",
-##                "Florida Charts_HIVAIDS Crude.csv",
-                "Florida Health_Births.csv",
-                "Florida Health_Diseases.csv"]
+UPDATE_THESE = ["Florida Charts_First Births.csv",      # 0
+                "Florida Charts_Repeat Births.csv",     # 1
+                "Florida Charts_AIDS Cases.csv",        # 2
+                "Florida Charts_HIV Cases.csv",         # 3
+##                "Florida Charts_HIVAIDS Age.csv",       # 4
+##                "Florida Charts_HIVAIDS Crude.csv",     # 5
+                "Florida Health_Births.csv",            # 6
+                "Florida Health_Diseases.csv"]          # 7
 DATABASE_LOCATION = CURRENT_DIRECTORY + '\\SQLite3.db'
 
 
@@ -61,6 +62,7 @@ def Upload(where_from,data):
     """
     print "UPLOADING '" + where_from + "'...",
     if (where_from == UPDATE_THESE[0]) or (where_from == UPDATE_THESE[1]):
+        t0 = time()
         with transaction.atomic():
             for line in data:
                 Births(year=        int(line[0]),
@@ -71,21 +73,23 @@ def Upload(where_from,data):
                        isRepeat=    int(line[5]),
                        births=      int(line[6]),
                        ).save()
-##    if (where_from == UPDATE_THESE[0]) or (where_from == UPDATE_THESE[1]):
-##        with transaction.atomic():
-##            for line in data:
-##                Births(year=        int(line[0]),
-##                       county=          line[1],
-##                       mothersAge=  int(line[2]),
-##                       mothersEdu=      line[3],
-##                       source=          line[4],
-##                       isRepeat=    int(line[5]),
-##                       births=      int(line[6]),
-##                       ).save()
+        t1 = time()
+    if where_from in UPDATE_THESE[2:6]:
+        t0 = time()
+        with transaction.atomic():
+            for line in data:
+                Diseases(year=      int(line[0]),
+                         county=    line[1],
+                         topic=     line[2],
+                         source=    line[3],
+                         count=     int(line[4]),
+                         rate=      float(line[5]),
+                         ).save()
+        t1 = time()
     else:
         ERR = "No upload procedure written for " + where_from
         raise TypeError(ERR)
-    print "COMPLETE!"
+    print "COMPLETE! (This took " + str(t1 - t0) + " seconds!)"
         
 def main():
     updates = Check_For_Updates(UPDATE_THESE)

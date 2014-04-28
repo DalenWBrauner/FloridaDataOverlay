@@ -25,30 +25,30 @@ def Prep_For_The_Database(how_so,csv):
     elif how_so == "Florida Charts_Repeat Births.csv":
         print "FORMATTING '" + how_so + "'...",
         return _Format_FLCharts_Births(csv,ERR,1)
-        
-##    elif how_so == "Florida Charts_AIDS Cases.csv":
-##        print "FORMATTING '" + how_so + "'...",
-##        return _Format_FLCharts_Disease_Cases(csv,ERR,0)
+    
+    elif how_so == "Florida Charts_AIDS Cases.csv":
+        print "FORMATTING '" + how_so + "'...",
+        return _Format_FLCharts_Disease_Cases(csv,ERR,0)
 
-##    elif how_so == "Florida Charts_HIV Cases.csv":
-##        print "FORMATTING '" + how_so + "'...",
-##        return _Format_FLCharts_Disease_Cases(csv,ERR,1)
+    elif how_so == "Florida Charts_HIV Cases.csv":
+        print "FORMATTING '" + how_so + "'...",
+        return _Format_FLCharts_Disease_Cases(csv,ERR,1)
 
 ##    elif how_so == "Florida Charts_HIVAIDS Crude.csv":
 ##        print "FORMATTING '" + how_so + "'...",
 ##        return _Format_FLCharts_Disease_Deaths(csv,ERR,0)
-
+##
 ##    elif how_so == "Florida Charts_HIVAIDS Age.csv":
 ##        print "FORMATTING '" + how_so + "'...",
 ##        return _Format_FLCharts_Disease_Deaths(csv,ERR,1)
         
-    elif how_so == "Florida Health_Births.csv":
-        print "FORMATTING '" + how_so + "' INCOMPLETE"
-        _debug_Print_The_Data(csv)
-        
-    elif how_so == "Florida Health_Diseases.csv":
-        print "FORMATTING '" + how_so + "' INCOMPLETE"
-        _debug_Print_The_Data(csv)
+##    elif how_so == "Florida Health_Births.csv":
+##        print "FORMATTING '" + how_so + "' INCOMPLETE"
+##        _debug_Print_The_Data(csv)
+##        
+##    elif how_so == "Florida Health_Diseases.csv":
+##        print "FORMATTING '" + how_so + "' INCOMPLETE"
+##        _debug_Print_The_Data(csv)
         
     else:
         ERR += "Hey, I'm not trained to format '"+how_so+"'!"
@@ -122,7 +122,7 @@ def _Format_FLCharts_Births(csv,ERR,repeat):
             columns.pop(c)
             colmod += 1
 
-    # Convert to tuples in Format:
+    # Convert to tuples in format:
     # (Year, County, Mother's Age, Mother's Education,
     # Source, Repeat, Births)
     final_tuples = []
@@ -141,10 +141,45 @@ def _Format_FLCharts_Births(csv,ERR,repeat):
     return final_tuples
 
 
-##def _Format_FLCharts_Disease_Cases(csv,ERR,HIVAIDS):
-##
-##    print "COMPLETE!"
-##    return final_tuples
+def _Format_FLCharts_Disease_Cases(csv,ERR,HIVAIDS):
+    
+    # Formats from String to Compound List
+    csv = [item.split(",") for item in csv.split("\n")]
+    
+    # Grabs the list of years
+    years = csv[1]
+    for y in xrange(1,len(years)):
+	if years[y] == '':
+		years[y] = years[y-1]
+    
+    # Removes extraneous data
+    rows = csv[3:-1]
+
+    # Sets the topic
+    if HIVAIDS:
+        topic = 'HIV Cases'
+    else:
+        topic = 'AIDS Cases'
+
+    # The Unknown row does not have rates :(
+    for r in xrange(2,len(rows[-1]),2):
+        rows[-1][r] = '0'
+
+    # Convert to tuples in format:
+    # (Year, County, Topic, Source, Count, Rate)
+    final_tuples = []
+    for ROW in xrange(len(rows)):
+        for COL in xrange(1,len(rows[0]),2):
+            tup = (years[COL],          #Year
+                   rows[ROW][0],        #County
+                   topic,               #Topic
+                   "Florida Charts",    #Source
+                   rows[ROW][COL],      #Count
+                   rows[ROW][COL+1])    #Rate
+            final_tuples.append(tup)
+
+    print "COMPLETE!"
+    return final_tuples
 
 
 ##def _Format_FLCharts_Disease_Deaths(csv,ERR,CrudeAge):
@@ -153,8 +188,9 @@ def _Format_FLCharts_Births(csv,ERR,repeat):
 ##    return final_tuples
 
 ## DEBUG FUNC()S
-def _debug_Print_The_Data(csv):
+def _debug_Print_The_Data(raw_csv):
     """It ain't pretty, but"""
+    csv = [item.split(",") for item in raw_csv.split("\n")]
     for row in csv:
         output = '| '
         for cell in row:
