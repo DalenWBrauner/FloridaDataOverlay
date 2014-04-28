@@ -16,3 +16,14 @@ def basic(request):
     context=RequestContext(request, {'my_list': my_list})
     
     return HttpResponse(template.render(context))
+
+def year(request, county):
+    
+    html = "<html><body>%s</body></html>" %county
+    return HttpResponse(html)
+    
+#    my_list=Births.objects.values('year').distinct()
+#    template=loader.get_template('years.html')
+#    context=RequestContext(request, {'my_list': my_list})
+#    
+#    return HttpResponse(template.render(context))
