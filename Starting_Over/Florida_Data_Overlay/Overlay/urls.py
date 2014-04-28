@@ -3,18 +3,22 @@ from Overlay import views
 
 urlpatterns = [
     url(r'^$',
-        views.basic,
-        name='basic'),
+        views.main,
+        name='main'),
+
+    url(r'^custom/$',
+        views.custom,
+        name='custom'),
     
-    url(r'^(?P<cnty>[^0-9]+)/$',
+    url(r'^custom/(?P<cnty>[^0-9]+)/$',
         views.year,
         name='years'),
     
-    url(r'^(?P<cnty>[^0-9]+)/(?P<yr>[0-9]{4})/$',
+    url(r'^custom/(?P<cnty>[^0-9]+)/(?P<yr>[0-9]{4})/$',
         views.att,
         name='attribute'),
 
-    url(r'^(?P<cnty>[^0-9]+)/(?P<yr>[0-9]{4})/(?P<fld>[^0-9]+)/$',
+    url(r'^custom/(?P<cnty>[^0-9]+)/(?P<yr>[0-9]{4})/(?P<fld>[^0-9]+)/$',
         views.table,
         name='table'),
 ]
