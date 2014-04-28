@@ -17,13 +17,13 @@ def basic(request):
     
     return HttpResponse(template.render(context))
 
-def year(request, county):
+def year(request, cnty):
+    my_list = Births.objects.all().filter(county__exact = cnty).order_by('-year').values('year').distinct()
+    template = loader.get_template('years.html')
+    context = RequestContext(request, {'my_list': my_list})
     
-    html = "<html><body>%s</body></html>" %county
+    return HttpResponse(template.render(context))
+
+def att(request, county, year):
+    html='<html><body>derp</body></html>'
     return HttpResponse(html)
-    
-#    my_list=Births.objects.values('year').distinct()
-#    template=loader.get_template('years.html')
-#    context=RequestContext(request, {'my_list': my_list})
-#    
-#    return HttpResponse(template.render(context))
