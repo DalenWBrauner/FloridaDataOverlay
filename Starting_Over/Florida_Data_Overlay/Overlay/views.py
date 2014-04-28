@@ -4,10 +4,16 @@ from django.template import RequestContext, loader
 
 from Overlay.models import Births
 
-def basic(request):
+def main(request):
+    template=loader.get_template('main.html')
+    context=RequestContext(request)
+    
+    return HttpResponse(template.render(context))
+
+def custom(request):
     my_list=Births.objects.values('county').distinct()
     
-    template=loader.get_template('base.html')
+    template=loader.get_template('custom.html')
     context=RequestContext(request, {'my_list': my_list})
     
     return HttpResponse(template.render(context))
