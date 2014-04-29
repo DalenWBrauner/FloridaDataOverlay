@@ -49,21 +49,46 @@ def att(request, cnty, yr):
 def table(request, cnty, yr, fld):
     my_list = Births.objects.all().filter(county__exact = cnty)
     my_list = my_list.filter(year__exact = yr)
-    
+
+    raw_data = []
     data = []
-    fld_opts = Births.objects.values(fld).distinct()
-    opts = Births.objects.values_list(fld).distinct()
-    
+    #fld_opts2 = Births.objects.values(fld).distinct()
+    fld_opts = Births.objects.values_list(fld).distinct()
+    opts = []
+
     for i in fld_opts:
+        t = str(i)
+        t = t[3:-3]
+        opts.append(t)
+
+    for i in opts:
         trans = []
-        lookup = '%s__exact' %fld_opts[i]
-        loop_list = my_list.filter(lookup = fld_opts[i])
+        loop_list = my_list.filter(**{fld + '__exact' : i})
 
         for j in loop_list:
             trans.append(j.births)
 
-        data.append(trans)
+        if trans:
+            raw_data.append(trans)
+
+    for i in raw_data:
+        sum_births = 0
+        
+        for j in i:
+            sum_births += j
             
+        data.append(sum_births)
+
+    da_list = []
+
+    for i in range(0, len(opts)):
+        t = []
+        #eventually this will be dynamic: # of years + 1
+        t.append(opts[i])
+        t.append(data[i])
+        da_list.append(t)
+
+        
     
     template = loader.get_template('table.html')
     context = RequestContext(request, {'county': cnty,
@@ -71,6 +96,6 @@ def table(request, cnty, yr, fld):
                                        'field': fld,
                                        'options': opts,
                                        'data': data,
-                                       'my_list': my_list})
+                                       'da_list': da_list})
     
     return HttpResponse(template.render(context))
