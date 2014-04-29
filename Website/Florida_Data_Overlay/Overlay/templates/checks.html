@@ -1,0 +1,67 @@
+<DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Counties</title>
+	<meta charset="utf-8" />
+	
+	<link rel="stylesheet" href="/static/css/styles.css" type="text/css"/>
+	<meta name="viewport content = "width-device-width, initial-scale=1.0">
+</head>
+
+<body class="body">
+  <body>
+	  <div id="background">
+	  <div id="wrapper"> 
+		<div id="banner">
+			<img src="http://www.plannedparenthood.org/images/pp.gif"/>
+		</div>
+		<div class="main_nav">
+			<ul id="nav">
+				<li><a href="filler">Home</a></li>        <!-- These links need to be filled in -->
+				<li><a href="filler">Graphs</a></li>
+				<li><a href="filler">Charts</a></li>
+				<li><a href="filler">Map</a></li>
+				<li><a href="filler">Resources</a></li>
+			</ul>
+		</div>
+	  	<div class="years">
+	  	
+	  	<form name="options" action="" method="POST">
+		{% if my_list %}
+			{% for Births in my_list %}
+				{{ Births.year }}: <input type="checkbox" name="years" value="{{ Births.year }}"  /><br />
+			{% endfor %}
+		{% endif %}
+		
+		{% if my_list %}
+			{% for Births in my_list %}
+				{{ Births.county }}: <input type="checkbox" name="counties" value="{{ Births.county }}"  /><br />
+			{% endfor %}
+		{% endif %}
+		
+		{% if names %}
+		{% for i in dict %}
+			{% if i.0 != "County" %}
+				{% if i.0 != "Year" %}
+					{% if i.0 != "Id" %}
+						{% if i.0 != "Source" %}
+							{% if i.0 != "Births" %}
+								{{ i.0 }}: <input type="checkbox" name="attributes" value="{{ i.0 }}"  /><br />
+							{% endif %}
+						{% endif %}
+					{% endif %}
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+		{% endif %}
+		</form>
+    		
+		</div>
+		</div>
+		<div id="footer">
+		</div>
+		</div>
+	  
+  </body>
+</html>
