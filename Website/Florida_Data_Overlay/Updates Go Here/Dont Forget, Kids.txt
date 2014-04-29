@@ -1,0 +1,2 @@
+We need to automate uploading from the website!
+http://stackoverflow.com/questions/5871730/need-a-minimal-django-file-upload-example
