@@ -56,10 +56,25 @@ def table(request, cnty, yr, fld):
     fld_opts = Births.objects.values_list(fld).distinct()
     opts = []
 
-    for i in fld_opts:
-        t = str(i)
-        t = t[3:-3]
-        opts.append(t)
+
+    # <DALEN CODE>
+    if   fld == 'mothersEdu':
+        # This is actually identical to Becca's for loop,
+        # just scrunched into less lines.
+        for i in fld_opts:
+            opts.append( str(i)[3:-3] )
+            
+    elif fld == 'isRepeat':
+        for i in fld_opts:
+            opts.append( i[0] )
+            
+    elif fld == 'mothersAge':
+        for i in fld_opts:
+            opts.append( i[0] )
+        
+    else:
+        print "Errr.....",fld
+    # </DALEN CODE>
 
     for i in opts:
         trans = []
@@ -84,16 +99,9 @@ def table(request, cnty, yr, fld):
     for i in range(0, len(opts)):
         t = []
         #eventually this will be dynamic: # of years + 1
-        if opts[i]:
-            t.append(opts[i])
-        else:
-            t.append('*')
 
-        if data[i]:
-            t.append(data[i])
-
-        else:
-            t.append('*')
+        t.append(opts[i])
+        t.append(data[i])
             
         da_list.append(t)
 
@@ -102,6 +110,14 @@ def table(request, cnty, yr, fld):
     if da_list[0]:
         for i in range(0, len(da_list[0])):
             rng.append(i)
+
+    print 'county : ',cnty
+    print 'year: ',yr
+    print 'field: ',fld
+    print 'options: ',opts
+    print 'data: ',data
+    print 'range: ',rng
+    print 'da_list :',da_list
     
     template = loader.get_template('table.html')
     context = RequestContext(request, {'county': cnty,
