@@ -84,11 +84,21 @@ def table(request, cnty, yr, fld):
     for i in range(0, len(opts)):
         t = []
         #eventually this will be dynamic: # of years + 1
-        t.append(opts[i])
-        t.append(data[i])
+        if opts[i]:
+            t.append(opts[i])
+        else:
+            t.append('*')
+
+        if data[i]:
+            t.append(data[i])
+
+        else:
+            t.append('*')
+            
         da_list.append(t)
 
-        
+    if da_list[0]:
+        rng = len(da_list[0])
     
     template = loader.get_template('table.html')
     context = RequestContext(request, {'county': cnty,
@@ -96,6 +106,7 @@ def table(request, cnty, yr, fld):
                                        'field': fld,
                                        'options': opts,
                                        'data': data,
+                                       'range': rng,
                                        'da_list': da_list})
     
     return HttpResponse(template.render(context))
