@@ -35,19 +35,17 @@
 		<p></p>
 		<li><b>List of Data:</b> {{data}}</li>
 		<p></p>
+		<li><b>Range:</b> {{range}}</li>
+		<p></p>
 		<li><b>Da List:</b> {{da_list}}</li>
 		
-		<table>
-		
 		{% for i in da_list %}
-			<tr>
 				{% for j in range %}
-					<td>{{ i.j }}</td>
+					<li>a</li>
+					<li>{{ i }}</li>
+					<li>{{ i }}</li>
 				{% endfor %}
-			</tr>
 		{% endfor %}
-		
-		</table>
 		
 		<div id="footer">
 		</div>

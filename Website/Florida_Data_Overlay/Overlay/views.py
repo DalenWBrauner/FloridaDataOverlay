@@ -97,8 +97,11 @@ def table(request, cnty, yr, fld):
             
         da_list.append(t)
 
+    rng = []
+    
     if da_list[0]:
-        rng = len(da_list[0])
+        for i in range(0, len(da_list[0])):
+            rng.append(i)
     
     template = loader.get_template('table.html')
     context = RequestContext(request, {'county': cnty,
