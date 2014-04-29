@@ -111,6 +111,7 @@ def table(request, cnty, yr, fld):
         for i in range(0, len(da_list[0])):
             rng.append(i)
 
+    # <DALEN CODE type='DEBUG'>
     print 'county : ',cnty
     print 'year: ',yr
     print 'field: ',fld
@@ -118,6 +119,7 @@ def table(request, cnty, yr, fld):
     print 'data: ',data
     print 'range: ',rng
     print 'da_list :',da_list
+    # </DALEN CODE>
     
     template = loader.get_template('table.html')
     context = RequestContext(request, {'county': cnty,
