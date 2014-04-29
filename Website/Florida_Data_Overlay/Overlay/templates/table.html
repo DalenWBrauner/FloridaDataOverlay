@@ -39,13 +39,14 @@
 		<p></p>
 		<li><b>Da List:</b> {{da_list}}</li>
 		
+		<table style="width:300px">
 		{% for i in da_list %}
-				{% for j in range %}
-					<li>a</li>
-					<li>{{ i }}</li>
-					<li>{{ i }}</li>
-				{% endfor %}
+			<tr>
+				<td>{{ i.0 }}</td>
+				<td>{{ i.1 }}</td>
+			</tr>
 		{% endfor %}
+		</table>
 		
 		<div id="footer">
 		</div>
