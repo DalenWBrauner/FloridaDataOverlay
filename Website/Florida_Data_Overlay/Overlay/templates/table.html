@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <title>Planned Parenthood</title>
-    <link type="css/text" rel="stylesheet" href="stylesheet.css"/>
+    <link rel="stylesheet" href="/static/css/styles.css" type="text/css"/>
   </head>
   
   <body>
@@ -18,38 +18,24 @@
 				<li><a href="filler">Resources</a></li>
 			</ul>
 		</div>
-	  	<div class="graph">
-			
-		</div>
-		
-		<b><font size=20>FOR TESTING PURPOSES ONLY</b></font size>
-		<p></p>
-		<p></p>
-		<li><b>Selected County:</b> {{county}}</li>
-		<p></p>
-		<li><b>Selected Year:</b> {{year}}</li>
-		<p></p>
-		<li><b>Field:</b> {{field}}</li>
-		<p></p>
-		<li><b>Field Options:</b> {{options}}</li>
-		<p></p>
-		<li><b>List of Data:</b> {{data}}</li>
-		<p></p>
-		<li><b>Range:</b> {{range}}</li>
-		<p></p>
-		<li><b>Da List:</b> {{da_list}}</li>
-		
-		<table style="width:300px">
-		{% for i in da_list %}
-			<tr>
-				<td>{{ i.0 }}</td>
-				<td>{{ i.1 }}</td>
-			</tr>
-		{% endfor %}
+	  	<div class="table">
+			<table id="mytable">
+				<tr>
+
+				  <th scope="col" >Level</th>
+				  <th scope="col" >Number</th>  
+				</tr>
+				{% for i in da_list %}
+					<tr>
+						<td>{{ i.0 }}</td>
+						<td>{{ i.1 }}</td>
+					</tr>
+				{% endfor %}
 		</table>
-		
-		<div id="footer">
 		</div>
 		</div>
+	  <div id="footer">
+		</div>
+	  </div>
   </body>
 </html>
