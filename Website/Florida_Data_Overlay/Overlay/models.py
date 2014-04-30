@@ -23,6 +23,15 @@ class Births(models.Model):
 
         return names
 
+    #def get_dep_vars(self):
+        #return dependent variables
+        #no year, no county, no source
+        #no independent variables
+
+    #def get_inp_vars(self):
+        #return independent vars
+        #as dict
+
     def __unicode__(self):
         s = "In " + self.county + " county, " + str(self.year)
         s += ", there were " + str(self.births)

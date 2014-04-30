@@ -41,6 +41,7 @@ def att(request, cnty, yr):
     d = []
 
     for i in range(0, len(names)):
+        #add if statements HERE instead of template
         d.append([names[i], fields[i]])
     
     template = loader.get_template('attribute.html')
