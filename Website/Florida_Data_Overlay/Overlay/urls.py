@@ -9,6 +9,10 @@ urlpatterns = [
     url(r'^custom/$',
         views.custom,
         name='custom'),
+
+    url(r'^RSS/$',
+        views.RSS,
+        name='RSS'),
     
     url(r'^custom/(?P<cnty>[^0-9]+)/$',
         views.year,

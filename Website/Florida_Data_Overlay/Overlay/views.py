@@ -18,6 +18,12 @@ def custom(request):
     
     return HttpResponse(template.render(context))
 
+def RSS(request):
+    template=loader.get_template('RSS.html')
+    context=RequestContext(request)
+    
+    return HttpResponse(template.render(context))
+
 def year(request, cnty):
     my_list = Births.objects.all().filter(county__exact = cnty)
     my_list = my_list.order_by('-year').values('year').distinct()
