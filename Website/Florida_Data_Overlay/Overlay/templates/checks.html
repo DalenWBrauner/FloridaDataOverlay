@@ -28,26 +28,57 @@
 	  	<div class="years">
 	  	
 	  	<form name="options" action="" method="POST">
+	  		
+	  		<div  class="checks">
 			{% if c_list %}
 				{% for Births in c_list %}
-					<input type="checkbox" name="counties" id="forloop.counter" value="{{ Births.county }}" />
-					<label for="{{ Births.county }}">{{ Births.county }}</label><br />
+					{% if forloop.counter < 25 %}
+						<input type="checkbox" name="counties" id="f{{orloop.counter}}" value="{{ Births.county }}" />
+							<label for="{{ Births.county }}">{{ Births.county }}</label><br />
+					{% endif%}		
 				{% endfor %}
 			{% endif %}
+			</div>
 			
+			<div  class="checks">
+			{% if c_list %}
+				{% for Births in c_list %}
+					{% if forloop.counter < 49  and  forloop.counter >= 25%}
+						<input type="checkbox" name="counties" id="{{forloop.counter}}" value="{{ Births.county }}" />
+							<label for="{{ Births.county }}">{{ Births.county }}</label><br />
+					{% endif %}		
+				{% endfor %}
+			{% endif %}
+			</div>
+			
+			<div  class="checks">
+			{% if c_list %}
+				{% for Births in c_list %}
+					{% if forloop.counter >= 50%}
+						<input type="checkbox" name="counties" id="{{forloop.counter}}" value="{{ Births.county }}" />
+							<label for="{{ Births.county }}">{{ Births.county }}</label><br />
+					{% endif %}		
+				{% endfor %}
+			{% endif %}
+			</div>
+			
+			<div  class="checks">
 			{% if y_list %}
 				{% for Births in y_list %}
 					<input type="checkbox" name="years" id="forloop.counter" value="{{ Births.year }}" />
 					<label for="{{ Births.year }}">{{ Births.year }}</label><br />
 				{% endfor %}
 			{% endif %}
+			</div>
 			
+			<div  class="checks">
 			{% if names %}
 			{% for i in dict %}
 				<input type="checkbox" name="attributes" id="forloop.counter" value="{{ i.0 }}" />
 				<label for="{{ i.0 }}">{{ i.0 }}</label><br />
 			{% endfor %}
 			{% endif %}
+			</div?
 		</form>
     		
 		</div>
