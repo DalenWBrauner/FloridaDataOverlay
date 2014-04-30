@@ -10,6 +10,34 @@ def main(request):
     
     return HttpResponse(template.render(context))
 
+def checks(request):
+    my_list_c = Births.objects.values('county').distinct()
+    my_list_y = Births.objects.values('year').distinct()
+
+    obj = Births.objects.get(id=1)
+    names = obj.get_names()
+    fields = obj.get_fields()
+    d = []
+
+    for i in range(0, len(names)):
+        if ((names[i] != 'County') and
+            (names[i] != 'Year') and
+            (names[i] != 'Id') and
+            (names[i] != 'Source') and
+            (names[i] != 'Births')):
+
+            d.append([names[i], fields[i]])
+    
+    template=loader.get_template('checks.html')
+    context = RequestContext(request, {'c_list': my_list_c,
+                                       'y_list': my_list_y,
+                                       'names': names,
+                                       'fields': fields,
+                                       'dict': d})
+    
+    return HttpResponse(template.render(context))
+    
+
 def custom(request):
     my_list=Births.objects.values('county').distinct()
     
@@ -59,15 +87,11 @@ def table(request, cnty, yr, fld):
 
     raw_data = []
     data = []
-    #fld_opts2 = Births.objects.values(fld).distinct()
     fld_opts = Births.objects.values_list(fld).distinct()
     opts = []
-
-
-    # <DALEN CODE>
-    if   fld == 'mothersEdu':
-        # This is actually identical to Becca's for loop,
-        # just scrunched into less lines.
+    
+    #<DALEN>
+    if fld == 'mothersEdu':
         for i in fld_opts:
             opts.append( str(i)[3:-3] )
             

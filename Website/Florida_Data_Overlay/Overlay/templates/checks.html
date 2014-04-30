@@ -28,33 +28,23 @@
 	  	<div class="years">
 	  	
 	  	<form name="options" action="" method="POST">
-		{% if my_list %}
-			{% for Births in my_list %}
-				{{ Births.year }}: <input type="checkbox" name="years" value="{{ Births.year }}"  /><br />
-			{% endfor %}
-		{% endif %}
-		
-		{% if my_list %}
-			{% for Births in my_list %}
-				{{ Births.county }}: <input type="checkbox" name="counties" value="{{ Births.county }}"  /><br />
-			{% endfor %}
-		{% endif %}
-		
-		{% if names %}
-		{% for i in dict %}
-			{% if i.0 != "County" %}
-				{% if i.0 != "Year" %}
-					{% if i.0 != "Id" %}
-						{% if i.0 != "Source" %}
-							{% if i.0 != "Births" %}
-								{{ i.0 }}: <input type="checkbox" name="attributes" value="{{ i.0 }}"  /><br />
-							{% endif %}
-						{% endif %}
-					{% endif %}
-				{% endif %}
+			{% if c_list %}
+				{% for Births in c_list %}
+					{{ Births.year }}: <input type="checkbox" name="years" value="{{ Births.year }}"  /><br />
+				{% endfor %}
 			{% endif %}
-		{% endfor %}
-		{% endif %}
+			
+			{% if y_list %}
+				{% for Births in y_list %}
+					{{ Births.county }}: <input type="checkbox" name="counties" value="{{ Births.county }}"  /><br />
+				{% endfor %}
+			{% endif %}
+			
+			{% if names %}
+			{% for i in dict %}
+				{{ i.0 }}: <input type="checkbox" name="attributes" value="{{ i.0 }}"  /><br />
+			{% endfor %}
+			{% endif %}
 		</form>
     		
 		</div>

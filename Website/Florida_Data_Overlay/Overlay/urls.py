@@ -6,6 +6,10 @@ urlpatterns = [
         views.main,
         name='main'),
 
+    url(r'^test/$',
+        views.checks,
+        name='checks'),
+
     url(r'^custom/$',
         views.custom,
         name='custom'),
