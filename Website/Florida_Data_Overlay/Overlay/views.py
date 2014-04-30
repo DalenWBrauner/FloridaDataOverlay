@@ -13,6 +13,7 @@ def main(request):
 
 def checks(request):
     my_list_c = Births.objects.values('county').distinct()
+    len_c = len(my_list_c)
     my_list_y = Births.objects.order_by('-year').values('year').distinct()
 
     obj = Births.objects.get(id=1)
@@ -31,6 +32,7 @@ def checks(request):
     
     template=loader.get_template('checks.html')
     context = RequestContext(request, {'c_list': my_list_c,
+                                       'len_c': len_c,
                                        'y_list': my_list_y,
                                        'names': names,
                                        'fields': fields,
