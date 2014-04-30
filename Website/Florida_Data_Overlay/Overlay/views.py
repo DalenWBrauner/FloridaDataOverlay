@@ -78,7 +78,7 @@ def table(request, cnty, yr, fld):
 
     for i in opts:
         trans = []
-        loop_list = my_list.filter(**{fld + '__exact' : i})
+        loop_list = my_list.filter(**{fld + '__exact' : str(i)})
 
         for j in loop_list:
             trans.append(j.births)
