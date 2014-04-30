@@ -1,37 +1,43 @@
-<DOCTYPE html>
 <html lang="en">
-
-<head>
-	<title>Counties</title>
-	<meta charset="utf-8" />
-	
-	<link rel="stylesheet" href="/static/css/styles.css" type="text/css"/>
-	<meta name="viewport content = "width-device-width, initial-scale=1.0">
-</head>
-
-<body class="body">
-	
-{% if names %}
-    <ul>
-    {% for i in dict %}
-        {% if i.0 != "County" %}
-			{% if i.0 != "Year" %}
-				{% if i.0 != "Id" %}
-					{% if i.0 != "Source" %}
-						{% if i.0 != "Births" %}
-							<li><a href="/overlay/custom/{{county}}/{{year}}/{{ i.1 }}">{{ i.0 }}</a></li>
+  <head>
+    <title>Planned Parenthood</title>
+    <link rel="stylesheet" href="/static/css/styles.css" type="text/css"/>
+  </head>
+  
+  <body>
+	  <div id="background">
+	  <div id="wrapper"> 
+		<div id="banner">
+			<img src="http://www.plannedparenthood.org/images/pp.gif"/>
+		</div>
+		<div class="main_nav">
+			<ul id="nav">
+				<li><a href="/overlay/">Home</a></li>        <!-- These links need to be filled in -->
+				<li><a href="/overlay/custom/">Charts</a></li>
+			</ul>
+		</div>
+	  	<div class="fields">
+			{% if names %}
+			<ul>
+			{% for i in dict %}
+				{% if i.0 != "County" %}
+					{% if i.0 != "Year" %}
+						{% if i.0 != "Id" %}
+							{% if i.0 != "Source" %}
+								{% if i.0 != "Births" %}
+									<li><a href="/overlay/custom/{{county}}/{{year}}/{{ i.1 }}">{{ i.0 }}</a></li>
+								{% endif %}
+							{% endif %}
 						{% endif %}
 					{% endif %}
 				{% endif %}
+			{% endfor %}
+			</ul>
 			{% endif %}
-		{% endif %}
-	{% endfor %}
-    </ul>
-{% endif %}
-	
-	<footer class="footer">
-		<p>copyright &copy 2014</p>
-	</footer>
-	
-</body>
+		</div>
+		</div>
+	  <div id="footer">
+		</div>
+	  </div>
+  </body>
 </html>
