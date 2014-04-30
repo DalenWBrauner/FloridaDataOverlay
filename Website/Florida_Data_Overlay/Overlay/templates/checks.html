@@ -30,19 +30,22 @@
 	  	<form name="options" action="" method="POST">
 			{% if c_list %}
 				{% for Births in c_list %}
-					{{ Births.year }}: <input type="checkbox" name="years" value="{{ Births.year }}"  /><br />
+					<input type="checkbox" name="counties" id="forloop.counter" value="{{ Births.county }}" />
+					<label for="{{ Births.county }}">{{ Births.county }}</label><br />
 				{% endfor %}
 			{% endif %}
 			
 			{% if y_list %}
 				{% for Births in y_list %}
-					{{ Births.county }}: <input type="checkbox" name="counties" value="{{ Births.county }}"  /><br />
+					<input type="checkbox" name="years" id="forloop.counter" value="{{ Births.year }}" />
+					<label for="{{ Births.year }}">{{ Births.year }}</label><br />
 				{% endfor %}
 			{% endif %}
 			
 			{% if names %}
 			{% for i in dict %}
-				{{ i.0 }}: <input type="checkbox" name="attributes" value="{{ i.0 }}"  /><br />
+				<input type="checkbox" name="attributes" id="forloop.counter" value="{{ i.0 }}" />
+				<label for="{{ i.0 }}">{{ i.0 }}</label><br />
 			{% endfor %}
 			{% endif %}
 		</form>
