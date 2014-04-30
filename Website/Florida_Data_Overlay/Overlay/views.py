@@ -66,11 +66,11 @@ def table(request, cnty, yr, fld):
             
     elif fld == 'isRepeat':
         for i in fld_opts:
-            opts.append( i[0] )
+            opts.append(i[0])
             
     elif fld == 'mothersAge':
         for i in fld_opts:
-            opts.append( i[0] )
+            opts.append(i[0])
         
     else:
         print "Errr.....",fld
@@ -78,13 +78,18 @@ def table(request, cnty, yr, fld):
 
     for i in opts:
         trans = []
+        cond = 0
         loop_list = my_list.filter(**{fld + '__exact' : i})
 
         for j in loop_list:
+            cond = 1
             trans.append(j.births)
 
-        if trans:
+        if cond == 1:
             raw_data.append(trans)
+
+        else:
+            raw_data.append([0])
 
     for i in raw_data:
         sum_births = 0
@@ -107,19 +112,10 @@ def table(request, cnty, yr, fld):
 
     rng = []
     
-    if da_list[0]:
-        for i in range(0, len(da_list[0])):
-            rng.append(i)
-
-    # <DALEN CODE type='DEBUG'>
-    print 'county : ',cnty
-    print 'year: ',yr
-    print 'field: ',fld
-    print 'options: ',opts
-    print 'data: ',data
-    print 'range: ',rng
-    print 'da_list :',da_list
-    # </DALEN CODE>
+    if da_list:
+        if da_list[0]:
+            for i in range(0, len(da_list[0])):
+                rng.append(i)
     
     template = loader.get_template('table.html')
     context = RequestContext(request, {'county': cnty,
