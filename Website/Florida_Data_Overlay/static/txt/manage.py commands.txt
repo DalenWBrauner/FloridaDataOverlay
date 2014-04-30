@@ -1,0 +1,2 @@
+Replaces syncdb:	manage.py schemamigration Overlay --auto
+Sometimes Dalen uses:	manage.py migrate Overlay
