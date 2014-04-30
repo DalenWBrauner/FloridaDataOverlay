@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Overlay',
+    'south',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -85,4 +86,4 @@ STATIC_URL = '/static/'
 
 ##MAKE THIS NOT HARD CODED
 #https://docs.djangoproject.com/en/dev/howto/static-files/
-STATICFILES_DIRS = (BASE_DIR+'\static',)
+STATICFILES_DIRS = (BASE_DIR+os.sep+'static',)
