@@ -10,6 +10,10 @@ urlpatterns = [
         views.checks,
         name='checks'),
 
+    url(r'^results/$',
+        views.results,
+        name='results'),
+
     url(r'^custom/$',
         views.custom,
         name='custom'),

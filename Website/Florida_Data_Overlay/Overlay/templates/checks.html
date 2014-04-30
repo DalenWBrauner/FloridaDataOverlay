@@ -18,16 +18,17 @@
 		</div>
 		<div class="main_nav">
 			<ul id="nav">
-				<li><a href="filler">Home</a></li>        <!-- These links need to be filled in -->
-				<li><a href="filler">Graphs</a></li>
-				<li><a href="filler">Charts</a></li>
-				<li><a href="filler">Map</a></li>
-				<li><a href="filler">Resources</a></li>
+				<li><a href="/overlay/">Home</a></li>        <!-- These links need to be filled in -->
+				<li><a href="/overlay/custom/">Charts</a></li>
+				<li><a href="/overlay/RSS/">RSS</a></li>
+				<li><a href="/overlay/test/">TESTING</a></li>
 			</ul>
 		</div>
+		
 	  	<div class="years">
 	  	
-	  	<form name="options" action="" method="POST">
+	  	<form name="options" action="/overlay/results/" method="POST">
+			{% csrf_token %}
 			{% if c_list %}
 				{% for Births in c_list %}
 					<input type="checkbox" name="counties" id="forloop.counter" value="{{ Births.county }}" />
@@ -48,6 +49,8 @@
 				<label for="{{ i.0 }}">{{ i.0 }}</label><br />
 			{% endfor %}
 			{% endif %}
+			
+		<input type="submit" value="Results" />
 		</form>
     		
 		</div>
