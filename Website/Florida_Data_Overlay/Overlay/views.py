@@ -10,9 +10,11 @@ def main(request):
     
     return HttpResponse(template.render(context))
 
+
 def checks(request):
     my_list_c = Births.objects.values('county').distinct()
-    my_list_y = Births.objects.values('year').distinct()
+    len_c = len(my_list_c)
+    my_list_y = Births.objects.order_by('-year').values('year').distinct()
 
     obj = Births.objects.get(id=1)
     names = obj.get_names()
@@ -30,10 +32,18 @@ def checks(request):
     
     template=loader.get_template('checks.html')
     context = RequestContext(request, {'c_list': my_list_c,
+                                       'len_c': len_c,
                                        'y_list': my_list_y,
                                        'names': names,
                                        'fields': fields,
                                        'dict': d})
+    
+    return HttpResponse(template.render(context))
+
+
+def results(request):
+    template=loader.get_template('results.html')
+    context=RequestContext(request)
     
     return HttpResponse(template.render(context))
     
@@ -46,11 +56,13 @@ def custom(request):
     
     return HttpResponse(template.render(context))
 
+
 def RSS(request):
     template=loader.get_template('RSS.html')
     context=RequestContext(request)
     
     return HttpResponse(template.render(context))
+
 
 def year(request, cnty):
     my_list = Births.objects.all().filter(county__exact = cnty)
@@ -61,6 +73,7 @@ def year(request, cnty):
                                        'my_list': my_list})
     
     return HttpResponse(template.render(context))
+
 
 def att(request, cnty, yr):
     obj = Births.objects.get(id=1)
@@ -80,6 +93,7 @@ def att(request, cnty, yr):
                                        'dict': d})
     
     return HttpResponse(template.render(context))
+
 
 def table(request, cnty, yr, fld):
     my_list = Births.objects.all().filter(county__exact = cnty)
