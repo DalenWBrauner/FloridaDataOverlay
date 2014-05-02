@@ -10,8 +10,8 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-from Overlay.models import Document
-from Overlay.forms import DocumentForm
+from Overlay.models import Upload
+from Overlay.forms import UploadForm
 
 
 def main(request):
@@ -182,26 +182,26 @@ def table(request, cnty, yr, fld):
     
     return HttpResponse(template.render(context))
 
-def list(request):
-    # Handle file upload
+def upload(request):
+    # When the user has attempted to upload:
     if request.method == 'POST':
-        form = DocumentForm(request.POST, request.FILES)
+        form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
-            newdoc = Document(docfile = request.FILES['docfile'])
-            newdoc.save()
+            newUp = Upload(upfile = request.FILES['upfile'])
+            newUp.save()
 
             # Redirect to the document list after POST
 #            return HttpResponseRedirect(reverse('FloridaDataOverlay.Overlay.views.list'))
-            return HttpResponseRedirect(reverse('Overlay.views.list'))
+            return HttpResponseRedirect(reverse('Overlay.views.upload'))
     else:
-        form = DocumentForm() # A empty, unbound form
+        form = UploadForm() # A empty, unbound form
 
     # Load documents for the list page
-    documents = Document.objects.all()
+    uploads = Upload.objects.all()
 
     # Render list page with the documents and the form
     return render_to_response(
-        'list.html',
-        {'documents': documents, 'form': form},
+        'upload.html',
+        {'uploads': uploads, 'form': form},
         context_instance=RequestContext(request)
     )

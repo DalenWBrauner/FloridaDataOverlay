@@ -34,7 +34,7 @@ urlpatterns = [
         views.table,
         name='table'),
 
-    url(r'^list/$',
-        views.list,
-        name='list'),
+    url(r'^upload/$',
+        views.upload,
+        name='upload'),
 ]

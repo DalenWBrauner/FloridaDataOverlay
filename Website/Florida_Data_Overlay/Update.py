@@ -13,11 +13,12 @@ from Update_Helper import Prep_For_The_Database
 from Overlay.models import Births, Diseases
 from django.db import transaction
 from time import time
-from os import rename
+from os import rename, path
 
 ## STATIC VARS
 from os import curdir as CURRENT_DIRECTORY
-UPDATE_DIRECTORY = CURRENT_DIRECTORY + '\\Updates Go Here'
+DATABASE_LOCATION = path.join(CURRENT_DIRECTORY, 'SQLite3.db')
+UPDATE_DIRECTORY = path.join(CURRENT_DIRECTORY, 'media', 'Updates Go Here')
 UPDATE_THESE = ["Florida Charts_First Births.csv",      # 0
                 "Florida Charts_Repeat Births.csv",     # 1
                 "Florida Charts_AIDS Cases.csv",        # 2
@@ -27,7 +28,6 @@ UPDATE_THESE = ["Florida Charts_First Births.csv",      # 0
                 "Florida Health_Births.csv",            # 6
                 "Florida Health_Diseases.csv",          # 7
                 ]
-DATABASE_LOCATION = CURRENT_DIRECTORY + '\\SQLite3.db'
 
 
 ## FUNC()S

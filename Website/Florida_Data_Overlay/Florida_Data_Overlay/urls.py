@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^overlay/', include('Overlay.urls')),
     url(r'^admin/', include(admin.site.urls)),
     
-    url(r'^$', RedirectView.as_view(url='/overlay/list/')),
+    url(r'^$', RedirectView.as_view(url='/overlay/upload/')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

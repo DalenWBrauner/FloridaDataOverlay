@@ -61,5 +61,5 @@ class Diseases(models.Model):
         s += "%), according to " + self.source
         return s
 
-class Document(models.Model):
-    docfile = models.FileField(upload_to='documents/%Y/%m/%d')
+class Upload(models.Model):
+    upfile = models.FileField(upload_to='Updates Go Here')
