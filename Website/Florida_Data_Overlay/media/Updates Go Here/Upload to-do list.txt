@@ -1,0 +1,8 @@
+Ben, probably:
+Add links on homepage to 'overlay/upload'
+Add CSS
+
+Dalen, probably:
+Remove direct interaction with the database
+Modify listings to show which files are ready to be inserted into the database
+Add an "UPDATE" button, integrated with Update.py
