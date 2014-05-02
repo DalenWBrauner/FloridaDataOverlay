@@ -86,4 +86,4 @@ STATIC_URL = '/static/'
 
 ##MAKE THIS NOT HARD CODED
 #https://docs.djangoproject.com/en/dev/howto/static-files/
-STATICFILES_DIRS = (BASE_DIR+os.sep+'static',)
+STATICFILES_DIRS = ( os.path.join(BASE_DIR, 'static') ,)
