@@ -7,6 +7,10 @@ urlpatterns = [
         name='main'),
 
     url(r'^test/$',
+        views.test,
+        name='test'),
+
+    url(r'^checks/$',
         views.checks,
         name='checks'),
 

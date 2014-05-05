@@ -1,17 +1,15 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.template import RequestContext, loader
-
-from Overlay.models import Births
-
-
-## Upload-specific imports
 from django.shortcuts import render_to_response
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.template import RequestContext, loader
 from django.core.urlresolvers import reverse
 
+from Overlay.models import Births
 from Overlay.models import Upload
 from Overlay.forms import UploadForm
+from Overlay.forms import ChoosyForm
+
 
 
 def main(request):
@@ -20,6 +18,11 @@ def main(request):
     
     return HttpResponse(template.render(context))
 
+def test(request):
+    template=loader.get_template('test.html')
+    context=RequestContext(request)
+    
+    return HttpResponse(template.render(context))
 
 def checks(request):
     my_list_c = Births.objects.values('county').distinct()
@@ -59,7 +62,7 @@ def results(request):
     
 
 def custom(request):
-    my_list=Births.objects.values('county').distinct()
+    my_list = Births.objects.values('county').distinct()
     
     template=loader.get_template('custom.html')
     context=RequestContext(request, {'my_list': my_list})
