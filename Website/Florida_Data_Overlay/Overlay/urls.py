@@ -21,6 +21,10 @@ urlpatterns = [
     url(r'^RSS/$',
         views.RSS,
         name='RSS'),
+
+    url(r'^upload/$',
+        views.upload,
+        name='upload'),
     
     url(r'^custom/(?P<cnty>[^0-9]+)/$',
         views.year,
@@ -33,8 +37,4 @@ urlpatterns = [
     url(r'^custom/(?P<cnty>[^0-9]+)/(?P<yr>[0-9]{4})/(?P<fld>[^0-9]+)/$',
         views.table,
         name='table'),
-
-    url(r'^upload/$',
-        views.upload,
-        name='upload'),
 ]
