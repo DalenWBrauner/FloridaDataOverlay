@@ -119,7 +119,7 @@ def table(request, cnty, yr, fld):
         
     else:
         print "Errr.....",fld
-    # </DALEN CODE>
+    #</DALEN>
 
     for i in opts:
         trans = []
