@@ -39,7 +39,7 @@ def Check_For_Updates(l1st):
     """
     DATA = {}
     for filename in l1st:
-        result = Retrieve(UPDATE_DIRECTORY+"\\"+filename)
+        result = Retrieve(path.join(UPDATE_DIRECTORY, filename))
         if result:
             DATA[filename] = result
     
@@ -76,7 +76,7 @@ def Upload(where_from,data):
                        births=      int(line[6]),
                        ).save()
         t1 = time()
-    if where_from in UPDATE_THESE[2:6]:
+    elif where_from in UPDATE_THESE[2:6]:
         t0 = time()
         with transaction.atomic():
             for line in data:
@@ -99,7 +99,7 @@ def main():
     for key in updates:
         updates[key] = Prep_For_The_Database(key, updates[key])
         Upload(key, updates[key])
-        rename(UPDATE_DIRECTORY+'\\'+key,
-               UPDATE_DIRECTORY+'\\_UPLOADED ON '+str(time())+' '+key)
+        rename(path.join(UPDATE_DIRECTORY,key),
+               path.join(UPDATE_DIRECTORY,('\\_UPLOADED ON '+str(time())+' '+key)))
 
 if __name__ == "__main__":main()
