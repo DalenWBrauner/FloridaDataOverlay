@@ -16,32 +16,27 @@ def Prep_For_The_Database(how_so,csv):
     """
     Preps specific .csv files for entry into the database.
     """
-    ERR = "Gimmie.py :: Prep_For_The_Database"
+    print "FORMATTING '" + how_so + "'...",
+    ERR = "Update_Helper.py :: Prep_For_The_Database"
     ERR += " :: '"+how_so+"'\nERROR:\t"
+    
 
     if   how_so == "Florida Charts_First Births.csv":
-        print "FORMATTING '" + how_so + "'...",
-        ERR += " :: 'Florida Charts_First Births.csv'\nERROR:\t"
         return _Format_FLCharts_Births(csv,ERR,0)
 
     elif how_so == "Florida Charts_Repeat Births.csv":
-        print "FORMATTING '" + how_so + "'...",
         return _Format_FLCharts_Births(csv,ERR,1)
     
     elif how_so == "Florida Charts_AIDS Cases.csv":
-        print "FORMATTING '" + how_so + "'...",
         return _Format_FLCharts_Diseases(csv,ERR,'AIDS Cases')
 
     elif how_so == "Florida Charts_HIV Cases.csv":
-        print "FORMATTING '" + how_so + "'...",
         return _Format_FLCharts_Diseases(csv,ERR,'HIV Cases')
 
     elif how_so == "Florida Charts_HIVAIDS Crude.csv":
-        print "FORMATTING '" + how_so + "'...",
         return _Format_FLCharts_Diseases(csv,ERR,'HIV+AIDS Deaths')
 
     elif how_so == "Florida Charts_HIVAIDS Age.csv":
-        print "FORMATTING '" + how_so + "'...",
         return _Format_FLCharts_Diseases(csv,ERR,'HIV+AIDS Deaths Age-Adjusted')
         
 ##    elif how_so == "Florida Health_Births.csv":
