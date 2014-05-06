@@ -100,6 +100,6 @@ def main():
         updates[key] = Prep_For_The_Database(key, updates[key])
         Upload(key, updates[key])
         rename(path.join(UPDATE_DIRECTORY,key),
-               path.join(UPDATE_DIRECTORY,('\\_UPLOADED ON '+str(time())+' '+key)))
+               path.join(UPDATE_DIRECTORY,('_UPLOADED ON '+str(time())+' '+key)))
 
 if __name__ == "__main__":main()
