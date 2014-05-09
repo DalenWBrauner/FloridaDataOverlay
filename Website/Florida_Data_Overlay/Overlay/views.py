@@ -19,8 +19,12 @@ def main(request):
     return HttpResponse(template.render(context))
 
 def test(request):
+    #form = ChoosyForm()
+    
     template=loader.get_template('test.html')
     context=RequestContext(request)
+    #context=RequestContext(request,
+    #                       'form': form)
     
     return HttpResponse(template.render(context))
 
@@ -95,7 +99,6 @@ def att(request, cnty, yr):
     d = []
 
     for i in range(0, len(names)):
-        #add if statements HERE instead of template
         d.append([names[i], fields[i]])
     
     template = loader.get_template('attribute.html')
@@ -106,7 +109,6 @@ def att(request, cnty, yr):
                                        'dict': d})
     
     return HttpResponse(template.render(context))
-
 
 def table(request, cnty, yr, fld):
     my_list = Births.objects.all().filter(county__exact = cnty)
@@ -182,6 +184,68 @@ def table(request, cnty, yr, fld):
                                        'data': data,
                                        'range': rng,
                                        'da_list': da_list})
+    
+    return HttpResponse(template.render(context))
+
+def graph(request, cnty, yr, fld):
+    my_list = Births.objects.all().filter(county__exact = cnty)
+    my_list = my_list.filter(year__exact = yr)
+
+    raw_data = []
+    data = []
+    fld_opts = Births.objects.values_list(fld).distinct()
+    opts = []
+    
+    #<DALEN>
+    if fld == 'mothersEdu':
+        for i in fld_opts:
+            opts.append( str(i)[3:-3] )
+            
+    elif fld == 'isRepeat':
+        for i in fld_opts:
+            opts.append(i[0])
+            
+    elif fld == 'mothersAge':
+        for i in fld_opts:
+            opts.append(i[0])
+        
+    else:
+        print "Errr.....",fld
+    # </DALEN CODE>
+
+    for i in opts:
+        trans = []
+        cond = 0
+        loop_list = my_list.filter(**{fld + '__exact' : i})
+
+        for j in loop_list:
+            cond = 1
+            trans.append(j.births)
+
+        if cond == 1:
+            raw_data.append(trans)
+
+        else:
+            raw_data.append([0])
+
+    for i in raw_data:
+        sum_births = 0
+        
+        for j in i:
+            sum_births += j
+            
+        data.append(sum_births)
+
+    #AFTER THIS POINT USE OPTS AND DATA
+    
+    template = loader.get_template('graph.html')
+    #add stuff down below if you need to pass it to the template
+    #'template name': variable name
+    context = RequestContext(request, {'county': cnty,
+                                       'year': yr,
+                                       'field': fld,
+                                       'options': opts,
+                                       'data': data})
     
     return HttpResponse(template.render(context))
 
