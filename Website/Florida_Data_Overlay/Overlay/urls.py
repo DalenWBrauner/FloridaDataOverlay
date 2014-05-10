@@ -38,7 +38,8 @@ urlpatterns = [
         views.att,
         name='attribute'),
 
+    #change this between table and graph
     url(r'^custom/(?P<cnty>[^0-9]+)/(?P<yr>[0-9]{4})/(?P<fld>[^0-9]+)/$',
-        views.table,
-        name='table'),
+        views.graph,
+        name='graph'),
 ]

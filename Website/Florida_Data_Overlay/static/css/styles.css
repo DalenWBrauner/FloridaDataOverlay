@@ -151,3 +151,13 @@ td {
 	line-height: 1.5;
 	float: left;
 	margin-bottom:1s%;
+	
+.graph{
+	margin-left:15%;
+}	
+
+
+#discretebarchart_container{
+	margin-left: 15%;
+	margin-top: 10%;
+}

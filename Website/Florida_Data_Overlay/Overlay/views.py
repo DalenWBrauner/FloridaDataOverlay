@@ -9,6 +9,9 @@ from Overlay.models import Births
 from Overlay.models import Upload
 from Overlay.forms import UploadForm
 from Overlay.forms import ChoosyForm
+import random
+import datetime
+import time
 
 
 
@@ -208,3 +211,77 @@ def upload(request):
         {'uploads': uploads, 'form': form},
         context_instance=RequestContext(request)
     )
+
+
+def graph(request, cnty, yr, fld):
+    my_list = Births.objects.all().filter(county__exact = cnty)
+    my_list = my_list.filter(year__exact = yr)
+
+    raw_data = []
+    data = []
+    fld_opts = Births.objects.values_list(fld).distinct()
+    opts = []
+    
+    #<DALEN>
+    if fld == 'mothersEdu':
+        for i in fld_opts:
+            opts.append( str(i)[3:-3] )
+            
+    elif fld == 'isRepeat':
+        for i in fld_opts:
+            opts.append(i[0])
+            
+    elif fld == 'mothersAge':
+        for i in fld_opts:
+            opts.append(i[0])
+        
+    else:
+        print "Errr.....",fld
+    # </DALEN CODE>
+
+    for i in opts:
+        trans = []
+        cond = 0
+        loop_list = my_list.filter(**{fld + '__exact' : i})
+
+        for j in loop_list:
+            cond = 1
+            trans.append(j.births)
+
+        if cond == 1:
+            raw_data.append(trans)
+
+        else:
+            raw_data.append([0])
+
+    for i in raw_data:
+        sum_births = 0
+        
+        for j in i:
+            sum_births += j
+            
+        data.append(sum_births)
+####################################################################
+
+    xdata = opts
+    ydata =  data
+
+    chartdata = {
+        'x': xdata, 'name1': '', 'y1': ydata, 
+    }
+    charttype = "discreteBarChart"
+    chartcontainer = 'discretebarchart_container'  # container name
+    data = {
+        'charttype': charttype,
+        'chartdata': chartdata,
+        'chartcontainer': chartcontainer,
+        'extra': {
+            'x_is_date': False,
+            'x_axis_format': '',
+            'tag_script_js': True,
+            'jquery_on_ready': True,
+        },
+    }
+
+    return render_to_response('graph.html', data)                                  
+    
