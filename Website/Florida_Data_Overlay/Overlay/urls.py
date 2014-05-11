@@ -42,4 +42,8 @@ urlpatterns = [
     url(r'^custom/(?P<cnty>[^0-9]+)/(?P<yr>[0-9]{4})/(?P<fld>[^0-9]+)/$',
         views.graph,
         name='graph'),
+
+    url(r'^line/$'
+        views.demo_linewithfocuschart,
+        name='line'),
 ]
