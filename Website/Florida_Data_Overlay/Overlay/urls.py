@@ -43,7 +43,7 @@ urlpatterns = [
         views.graph,
         name='graph'),
 
-    url(r'^line/$'
+    url(r'^line/$',
         views.demo_linewithfocuschart,
         name='line'),
 ]
