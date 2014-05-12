@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'south',
     'django.contrib.staticfiles',
     'djangobower',
+    'django_nvd3'
 )
 
 MIDDLEWARE_CLASSES = (
