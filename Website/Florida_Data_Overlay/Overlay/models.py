@@ -1,3 +1,4 @@
+from django import forms
 from django.db import models
 
 class Births(models.Model):
@@ -23,15 +24,6 @@ class Births(models.Model):
 
         return names
 
-    #def get_dep_vars(self):
-        #return dependent variables
-        #no year, no county, no source
-        #no independent variables
-
-    #def get_inp_vars(self):
-        #return independent vars
-        #as dict
-
     def __unicode__(self):
         s = "In " + self.county + " county, " + str(self.year)
         s += ", there were " + str(self.births)
@@ -39,7 +31,7 @@ class Births(models.Model):
         else:               s += " first births to "
         s += str(self.mothersAge) + "-year-old mothers who "
         s += self.mothersEdu + ", according to " + self.source
-        return s
+        return s        
 
 class Diseases(models.Model):
     year = models.IntegerField("Year")

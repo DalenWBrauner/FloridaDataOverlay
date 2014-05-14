@@ -1,14 +1,14 @@
-from django.shortcuts import render
-from django.shortcuts import render_to_response
+from django.core.urlresolvers import reverse
+from django.forms.models import modelformset_factory
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.shortcuts import render_to_response
 from django.template import RequestContext, loader
-from django.core.urlresolvers import reverse
-
+from Overlay.forms import BirthForm
+from Overlay.forms import UploadForm
 from Overlay.models import Births
 from Overlay.models import Upload
-from Overlay.forms import UploadForm
-from Overlay.forms import ChoosyForm
 
 
 
@@ -19,15 +19,24 @@ def main(request):
     return HttpResponse(template.render(context))
 
 def test(request):
-    #form = ChoosyForm()
-    
-    template=loader.get_template('test.html')
-    context=RequestContext(request)
-    #context=RequestContext(request,
-    #                       'form': form)
-    
-    return HttpResponse(template.render(context))
+    '''
+    if request.method == 'POST':
+        form = BirthForm(request.POST)
 
+        if form.is_valid():
+            #SOMETHING GRAPHY TO BE DONE HERE
+            return HttpResponseRedirect(reverse('test')) #this redirects it to the same page, which is cool
+
+    else:
+        form = BirthForm()
+
+    return render(request, 'test.html', {'form': form})
+'''
+
+    form = BirthForm()
+
+    return render(request, 'test.html', {'form': form})
+    
 def checks(request):
     my_list_c = Births.objects.values('county').distinct()
     len_c = len(my_list_c)
@@ -59,10 +68,27 @@ def checks(request):
 
 
 def results(request):
-    template=loader.get_template('results.html')
-    context=RequestContext(request)
+    message = "message: \n"
     
-    return HttpResponse(template.render(context))
+    if 'counties' in request.GET:
+        message = message + 'counties : %r \n' % request.GET.getlist('counties')
+    
+    else:
+        message = message + 'no counties'
+        
+    if 'years' in request.GET:
+        message = message + 'years : %r \n' % request.GET.getlist('years')
+    
+    else:
+        message = message + 'no years'
+        
+    if 'attributes' in request.GET:
+        message = message + 'attributes : %r \n' % request.GET.getlist('attributes')
+    
+    else:
+        message = message + 'no attributes'
+
+    return render(request, 'results.html', {'message': message})
     
 
 def custom(request):
