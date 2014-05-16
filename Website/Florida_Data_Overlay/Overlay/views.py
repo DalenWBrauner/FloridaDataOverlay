@@ -121,13 +121,18 @@ def results(request):
 
     my_list = Births.objects.filter(Qr)
 
-    #creating a list of possible options for each field
-    fld_opts = []
-    for x in a:
-        fld_opts.append(Births.objects.values_list(x).distinct())
+    ##########################################################
 
-    #cleaning GO BACK TO THIS LATER
+    o_data = []
+
     for fld in a:
+        o_data.append('a')
+        
+        raw_data = []
+        data = []
+        fld_opts = Births.objects.values_list(fld).distinct()
+        opts = []
+        
         if fld == 'mothersEdu':
             for i in fld_opts:
                 opts.append( str(i)[3:-3] )
@@ -143,8 +148,6 @@ def results(request):
         else:
             print "Errr.....",fld
 
-    #specific opts
-    for fld in a:
         for i in opts:
             trans = []
             cond = 0
@@ -159,23 +162,26 @@ def results(request):
 
             else:
                 raw_data.append([0])
-    '''
-    for i in raw_data:
-        sum_births = 0
-        
-        for j in i:
-            sum_births += j
+
+        for i in raw_data:
+            sum_births = 0
             
-        data.append(sum_births)
-    '''
-    #use opts and data
-    
-    
-    
+            for j in i:
+                sum_births += j
+                
+            data.append(sum_births)
+
+        #naive attempt to dynamize this
+        o_data.append(fld)
+        o_data.append('b')
+        o_data.append(data)
+        
+    ##########################################################
+
+    #use o_data and let me know if you need anything else
     
     return render_to_response('results.html', {'my_list': my_list,
-                                               'opts': opts,
-                                               'data': data})
+                                               'o_data': o_data})
 
 def table(request, cnty, yr, fld):
     my_list = Births.objects.all().filter(county__exact = cnty)
