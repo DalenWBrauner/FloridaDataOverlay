@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 from django.forms.models import modelformset_factory
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -18,21 +19,13 @@ def main(request):
     
     return HttpResponse(template.render(context))
 
+def custom(request):
+    template=loader.get_template('custom.html')
+    context=RequestContext(request)
+    
+    return HttpResponse(template.render(context))
+
 def test(request):
-    '''
-    if request.method == 'POST':
-        form = BirthForm(request.POST)
-
-        if form.is_valid():
-            #SOMETHING GRAPHY TO BE DONE HERE
-            return HttpResponseRedirect(reverse('test')) #this redirects it to the same page, which is cool
-
-    else:
-        form = BirthForm()
-
-    return render(request, 'test.html', {'form': form})
-'''
-
     form = BirthForm()
 
     return render(request, 'test.html', {'form': form})
@@ -72,69 +65,125 @@ def results(request):
     
     if 'counties' in request.GET:
         message = message + 'counties : %r \n' % request.GET.getlist('counties')
+        c = request.GET.getlist('counties')
     
     else:
         message = message + 'no counties'
         
     if 'years' in request.GET:
         message = message + 'years : %r \n' % request.GET.getlist('years')
+        y = request.GET.getlist('years')
     
     else:
         message = message + 'no years'
         
     if 'attributes' in request.GET:
         message = message + 'attributes : %r \n' % request.GET.getlist('attributes')
+        a = request.GET.getlist('attributes')
     
     else:
         message = message + 'no attributes'
 
-    return render(request, 'results.html', {'message': message})
+    #message is for testing only- remove
+    #c is the list of counties
+    #y is the list of years
+    #a is the list of field names
+    #NOTE: there is a potential for the names to be weirdly formatted
+    #let me know if they are and I'll fix it
     
-
-def custom(request):
-    my_list = Births.objects.values('county').distinct()
+    opts = []
+    raw_data = []
+    data = []
     
-    template=loader.get_template('custom.html')
-    context=RequestContext(request, {'my_list': my_list})
+    #the kwargs style syntax was only accepting variables
+    c2 = 'county'
+    y2 = 'year'
+
+    #filtering multiple counties
+    Qr = None
+    for x in c:
+        q = Q(**{"%s__exact" % c2: x})
+        if Qr:
+            Qr = Qr | q
+        else:
+            Qr = q
+
+    my_list = Births.objects.filter(Qr)
+
+    #filtering multiple years
+    Qr = None
+    for x in y:
+        q = Q(**{"%s__exact" % y2: x})
+        if Qr:
+            Qr = Qr | q
+        else:
+            Qr = q
+
+    my_list = Births.objects.filter(Qr)
+
+    ##########################################################
+
+    o_data = []
+    o_opts = []
+
+    for fld in a:
+        
+        raw_data = []
+        data = []
+        fld_opts = Births.objects.values_list(fld).distinct()
+        opts = []
+        
+        if fld == 'mothersEdu':
+            for i in fld_opts:
+                opts.append( str(i)[3:-3] )
+                
+        elif fld == 'isRepeat':
+            for i in fld_opts:
+                opts.append(i[0])
+                
+        elif fld == 'mothersAge':
+            for i in fld_opts:
+                opts.append(i[0])
+            
+        else:
+            print "Errr.....",fld
+
+        for i in opts:
+            trans = []
+            cond = 0
+            loop_list = my_list.filter(**{fld + '__exact' : i})
+
+            for j in loop_list:
+                cond = 1
+                trans.append(j.births)
+
+            if cond == 1:
+                raw_data.append(trans)
+
+            else:
+                raw_data.append([0])
+
+        for i in raw_data:
+            sum_births = 0
+            
+            for j in i:
+                sum_births += j
+                
+            data.append(sum_births)
+
+        o_opts.append(opts)
+        o_data.append(data)
+        
+    ##########################################################
+
+    #use o_data and o_opts and let me know if you need anything else
+    #o_data = [data1, data2, data3]
+    #o_opts = [opts1, opts2, opts3]
+    #so basically these two are lists of the thing I gave you last time (:
     
-    return HttpResponse(template.render(context))
-
-
-def RSS(request):
-    template=loader.get_template('RSS.html')
-    context=RequestContext(request)
-    
-    return HttpResponse(template.render(context))
-
-
-def year(request, cnty):
-    my_list = Births.objects.all().filter(county__exact = cnty)
-    my_list = my_list.order_by('-year').values('year').distinct()
-    
-    template = loader.get_template('years.html')
-    context = RequestContext(request, {'county': cnty,
-                                       'my_list': my_list})
-    
-    return HttpResponse(template.render(context))
-
-
-def att(request, cnty, yr):
-    obj = Births.objects.get(id=1)
-    names = obj.get_names()
-    fields = obj.get_fields()
-    d = []
-
-    for i in range(0, len(names)):
-        d.append([names[i], fields[i]])
-    
-    template = loader.get_template('attribute.html')
-    context = RequestContext(request, {'county': cnty,
-                                       'year': yr,
-                                       'names': names,
-                                       'fields': fields,
-                                       'dict': d})
-    
-    return HttpResponse(template.render(context))
+    return render_to_response('results.html', {'my_list': my_list,
+                                               'o_data': o_data,
+                                               'o_opts': o_opts})
 
 def table(request, cnty, yr, fld):
     my_list = Births.objects.all().filter(county__exact = cnty)

@@ -22,14 +22,10 @@ urlpatterns = [
         views.custom,
         name='custom'),
 
-    url(r'^RSS/$',
-        views.RSS,
-        name='RSS'),
-
     url(r'^upload/$',
         views.upload,
         name='upload'),
-    
+    '''
     url(r'^custom/(?P<cnty>[^0-9]+)/$',
         views.year,
         name='years'),
@@ -37,9 +33,10 @@ urlpatterns = [
     url(r'^custom/(?P<cnty>[^0-9]+)/(?P<yr>[0-9]{4})/$',
         views.att,
         name='attribute'),
-
+    
     #change this between table and graph
     url(r'^custom/(?P<cnty>[^0-9]+)/(?P<yr>[0-9]{4})/(?P<fld>[^0-9]+)/$',
         views.graph,
         name='graph'),
+    '''
 ]

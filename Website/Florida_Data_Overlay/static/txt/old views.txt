@@ -1,0 +1,44 @@
+def custom(request):
+    my_list = Births.objects.values('county').distinct()
+    
+    template=loader.get_template('custom.html')
+    context=RequestContext(request, {'my_list': my_list})
+    
+    return HttpResponse(template.render(context))
+
+
+def RSS(request):
+    template=loader.get_template('RSS.html')
+    context=RequestContext(request)
+    
+    return HttpResponse(template.render(context))
+
+
+def year(request, cnty):
+    my_list = Births.objects.all().filter(county__exact = cnty)
+    my_list = my_list.order_by('-year').values('year').distinct()
+    
+    template = loader.get_template('years.html')
+    context = RequestContext(request, {'county': cnty,
+                                       'my_list': my_list})
+    
+    return HttpResponse(template.render(context))
+
+
+def att(request, cnty, yr):
+    obj = Births.objects.get(id=1)
+    names = obj.get_names()
+    fields = obj.get_fields()
+    d = []
+
+    for i in range(0, len(names)):
+        d.append([names[i], fields[i]])
+    
+    template = loader.get_template('attribute.html')
+    context = RequestContext(request, {'county': cnty,
+                                       'year': yr,
+                                       'names': names,
+                                       'fields': fields,
+                                       'dict': d})
+    
+    return HttpResponse(template.render(context))
