@@ -27,6 +27,7 @@ UPDATE_THESE = ["Florida Charts_First Births.csv",      # 0
                 "Florida Charts_HIVAIDS Crude.csv",     # 5
                 "Florida Health_Births.csv",            # 6
                 "Florida Health_Diseases.csv",          # 7
+                "Florida Health_STDs by HIV Status 2008.csv" #8
                 ]
 
 
@@ -88,6 +89,16 @@ def Upload(where_from,data):
                          rate=      float(line[5]),
                          ).save()
         t1 = time()
+    elif where_from in UPDATE_THESE[7]:
+        t0=time()
+        with transaction.atomic():
+            for line in data:
+                #This probably isn't right either
+                HivDiseases(year=   int(line[0]),
+                            county= line[1],
+                            #source=    ?
+                            #Temporarily leaving this blank
+                
     else:
         ERR = "No upload procedure written for " + where_from
         raise TypeError(ERR)
@@ -95,7 +106,7 @@ def Upload(where_from,data):
         
 def main():
     updates = Check_For_Updates(UPDATE_THESE)
-    
+        
     for key in updates:
         updates[key] = Prep_For_The_Database(key, updates[key])
         Upload(key, updates[key])

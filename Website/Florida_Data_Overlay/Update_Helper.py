@@ -9,6 +9,7 @@ Last Maintained: 04/28/2014
 """
 # Sources
 FLORIDA_CHARTS = "http://www.floridacharts.com/"
+FLORIDA_HEALTH = "http://www.floridahealth.gov/"
 
 
 ## PUBLIC FUNC()S
@@ -38,6 +39,9 @@ def Prep_For_The_Database(how_so,csv):
 
     elif how_so == "Florida Charts_HIVAIDS Age.csv":
         return _Format_FLCharts_Diseases(csv,ERR,'HIV+AIDS Deaths Age-Adjusted')
+
+    elif how_so == "Florida Health_STDs by HIV Status 2008":
+        return _Format_FLHealth_Diseases(csv,ERR,'STDs by HIV Status-2008')
         
 ##    elif how_so == "Florida Health_Births.csv":
 ##        print "FORMATTING '" + how_so + "' INCOMPLETE"
@@ -53,9 +57,88 @@ def Prep_For_The_Database(how_so,csv):
 
 
 ## PRIVATE FUNC()S
+def _Format_FLHealth_Diseases(csv,ERR,repeat):
+    
+    # This should be changed to something more dyanimic,
+    # but the year isn't written anywhere in the sheet
+    year = 2008
+    
+    # Remove useless rows, leaving nothing but data
+    useful=csv[2:-2]
+
+    # Check all rows are the same length
+    a = len(useful[0])
+    for row in useful:
+        b = len(row)
+        if a != b:
+            ERR += "Not all rows are the same length!"
+            ERR += "\n\t(Are there too many commas in the csv?)"
+            raise Exception(ERR)
+
+    # Formats from String to Compound List
+    csv = csv.split('\n')
+    for d in xrange(len(csv)):
+        csv[d] = csv[d].split(',')
+
+    # Fill in age row
+    suggestion = "COUNTIES"
+    for idx in xrange(len(useful[0])): #just wondering, do we need xrange here? Seems easier without
+        # Is this even implemented correctly? Seems suggestion would only get updated with last value
+        # Maybe I'mm just being stupid
+        if  useful[0][idx] == '':
+            useful[0][idx] = suggestion
+        else:
+            suggestion = useful[0][idx]
+
+    # Convert to columns
+    columns = []
+    for age in xrange(len(useful[0])): # see above
+        a_column = []
+        for row in useful:
+            a_column.append(row[age])
+        columns.append(a_column)
+
+    # Remove 'Totals' columns
+    colmod = 0
+    for col in xrange(len(columns)):
+        c = col - colmod
+        if ('Total' in columns[c][0]) or 'Total' in columns[c][1]:
+            columns.pop(c)
+            colmod += 1
+            
+    # Convert to tuples in format:
+    # Not sure where RESOURCE item goes in here
+    # At some point we should decide what to turn 'n/a' into
+    # HIS IS ALMOST CERTAINLY COMPLETELY MESSED UP
+    final_tuples = []
+    for COL in xrange(1,len(columns)-1):
+        for ROW in xrange(2,len(columns[COL])):                
+            tup = (year,                #Year
+                   columns[0][ROW],     #County
+                   columns[1][ROW],     #Infectious Syphilis Cases
+                   columns[2][ROW],     #Infectious Syphilis Cases that are HIV+
+                   columns[3][ROW],     #Infectious Syphilis Cases that are HIV+ (%)
+                   columns[4][ROW],     #Early Latent Syphilis Cases
+                   columns[5][ROW],     #Early Latent Syphilis Cases that are HIV+
+                   columns[6][ROW],     #Early Latent Syphilis Cases that are HIV+ (%)
+                   columns[1][ROW],     #Late/Latent Syphilis Cases
+                   columns[1][ROW],     #Late/Latent Syphilis Cases that are HIV+
+                   columns[1][ROW],     #Late/Latent Syphilis Cases that are HIV+ (%)
+                   columns[1][ROW],     #Chlymadia Cases
+                   columns[1][ROW],     #Chlymadia Cases that are HIV+
+                   columns[1][ROW],     #Chlymadia Cases that are HIV+ (%)
+                   columns[1][ROW],     #Gonorrhea Cases
+                   columns[1][ROW],     #Gonorrhea Cases that are HIV+
+                   columns[1][ROW])     #Gonorrhea Cases that are HIV+ (%)                                         
+            final_tuples.append(tup)
+
+    print "COMPLETE!"
+    return final_tuples
+    
 def _Format_FLCharts_Births(csv,ERR,repeat):
     
     # Cleans out " marks
+    # Isn't defining the variable twice a bad idea? Might modify this.
     smudge = csv.find('"')
     while smudge != -1:
         csv = csv[:smudge] + csv[smudge+1:]
@@ -147,7 +230,7 @@ def _Format_FLCharts_Diseases(csv,ERR,topic):
     years = csv[1]
     for y in xrange(1,len(years)):
 	if years[y] == '':
-		years[y] = years[y-1]
+	    years[y] = years[y-1]
     
     # Removes extraneous data
     rows = csv[3:-1]
