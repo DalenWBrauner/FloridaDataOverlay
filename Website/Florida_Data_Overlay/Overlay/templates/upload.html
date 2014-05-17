@@ -6,16 +6,6 @@
 	</head>
 
 	<body>
-		<!-- List of uploaded documents -->
-		{% if uploads %}
-			<ul>
-			{% for upload in uploads %}
-				<li><a href="{{ upload.upfile.url }}">{{ upload.upfile.name }}</a></li>
-			{% endfor %}
-			</ul>
-		{% else %}
-			<p>Nothing uploaded!</p>
-		{% endif %}
 
 		<!-- Upload form. Note enctype attribute! -->
 		<form action="{% url "upload" %}" method="post" enctype="multipart/form-data">

@@ -276,25 +276,21 @@ def graph(request, cnty, yr, fld):
     return HttpResponse(template.render(context))
 
 def upload(request):
-    # When the user has attempted to upload:
+    # If the user has attempted to upload
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
+
+        # and their upload worked
         if form.is_valid():
             newUp = Upload(upfile = request.FILES['upfile'])
             newUp.save()
-
-            # Redirect to the document list after POST
-#            return HttpResponseRedirect(reverse('FloridaDataOverlay.Overlay.views.list'))
             return HttpResponseRedirect(reverse('Overlay.views.upload'))
+        
+    # Otherwise the user receives a pretty blank page
     else:
-        form = UploadForm() # A empty, unbound form
-
-    # Load documents for the list page
-    uploads = Upload.objects.all()
-
-    # Render list page with the documents and the form
-    return render_to_response(
-        'upload.html',
-        {'uploads': uploads, 'form': form},
-        context_instance=RequestContext(request)
+        form = UploadForm()
+    
+    return render_to_response('upload.html',
+                              {'form': form},
+                              context_instance=RequestContext(request)
     )
