@@ -20,9 +20,13 @@
 			</ul>
 		</div>
 		
-		<br>{{opts}}</br>
+		{% for i in o_opts %}
+			<br>{{ i }}</br>
+		{% endfor %}
 		<br></br>
-		<br>{{o_data}}</br>
+		{% for j in o_data %}
+			<br>{{ j }}</br>
+		{% endfor %}
 		
 		</div>
 		<div id="footer">

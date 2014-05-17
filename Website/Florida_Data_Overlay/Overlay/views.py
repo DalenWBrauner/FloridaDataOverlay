@@ -124,9 +124,9 @@ def results(request):
     ##########################################################
 
     o_data = []
+    o_opts = []
 
     for fld in a:
-        o_data.append('a')
         
         raw_data = []
         data = []
@@ -171,17 +171,19 @@ def results(request):
                 
             data.append(sum_births)
 
-        #naive attempt to dynamize this
-        o_data.append(fld)
-        o_data.append('b')
+        o_opts.append(opts)
         o_data.append(data)
         
     ##########################################################
 
-    #use o_data and let me know if you need anything else
+    #use o_data and o_opts and let me know if you need anything else
+    #o_data = [data1, data2, data3]
+    #o_opts = [opts1, opts2, opts3]
+    #so basically these two are lists of the thing I gave you last time (:
     
     return render_to_response('results.html', {'my_list': my_list,
-                                               'o_data': o_data})
+                                               'o_data': o_data,
+                                               'o_opts': o_opts})
 
 def table(request, cnty, yr, fld):
     my_list = Births.objects.all().filter(county__exact = cnty)
