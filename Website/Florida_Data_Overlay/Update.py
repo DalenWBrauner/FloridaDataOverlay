@@ -89,15 +89,15 @@ def Upload(where_from,data):
                          rate=      float(line[5]),
                          ).save()
         t1 = time()
-    elif where_from in UPDATE_THESE[7]:
-        t0=time()
-        with transaction.atomic():
-            for line in data:
-                #This probably isn't right either
-                HivDiseases(year=   int(line[0]),
-                            county= line[1],
-                            #source=    ?
-                            #Temporarily leaving this blank
+##    elif where_from in UPDATE_THESE[7]:
+##        t0=time()
+##        with transaction.atomic():
+##            for line in data:
+##                #This probably isn't right either
+##                HivDiseases(year=   int(line[0]),
+##                            county= line[1],
+##                            #source=    ?
+##                            #Temporarily leaving this blank
                 
     else:
         ERR = "No upload procedure written for " + where_from

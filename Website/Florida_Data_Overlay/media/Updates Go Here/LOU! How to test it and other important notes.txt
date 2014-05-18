@@ -1,0 +1,68 @@
+Hey Lou!
+So the testing procedure is a little obnoxious, I'm sorry. If you want more help with it, try texting/calling/skyping me, I can explain it in more detail or try to clear up any ambiguities.
+
+STEP ONE:
+Make sure the .csv file is in your "...\media\Updates Go Here" folder.
+
+STEP TWO:
+Open command prompt, and enter:
+
+cd "wherever_the_heck_your_github_folder_is\GitHub\FloridaDataOverlay\Website\Florida_Data_Overlay"
+
+manage.py shell
+
+STEP THREE:
+Whoa, now you're in a python shell... inside your command prompt. Weird, right? We had to do this because if you try to just run Update.py normally, it craps out on you because you tried to import a django thing (and django doesn't like that).
+But now you're in a weird/magical django version of the shell, all so django will stop complaining! So let's do it! Run these in the shell:
+
+import Update
+
+Update.main()
+
+And TADAA! IT LIVES!
+
+IMPORTANT NOTES:
+** Run "quit()" in the shell to leave it.
+** If you make any changes to either Update.py or Update_Helper.py, you'll have to leave the shell, come back, and import Update again.
+** If you get the error "TypeError: No upload procedure written..." that's a good thing! We don't want to upload your changes to the database until we know they work, so I commented out the segment in Update.py that normally would.
+** Currently, I have 3 sets of print statements set up:
+
+(1) After csv is formatted to a compound list,
+    for thing in csv:
+        print csv
+
+(2) In the final for loop,
+        print tup
+
+(3) And then instead of returning final_tuples at the end,
+    for tup in final_tuples:
+        print tup
+
+This means that you should see 3 copies of the data printed out. You'll probably notice the first time you run the code that only one of those copies appears; apparently, the tuples in the second set of print statements are, for some reason, empty. I'm going to leave the debugging to you, but so far so good! Progress is progress! And always remember: when in doubt, print statements are a great way of checking your code. Best of luck!
+
+** Try to get as much of this working as you can. I like how you've set up your tuple so far, but I have a suggestion.
+Currently, you go through, cell by cell, and add a LOT to just one tuple. Justifiably so! We have Infectious Syphillis Cases AND Early Latent Syphilis AND Late/Latent Syphilis etc.
+My suggestion: When you start to get things working, see if you can instead implement the tuples to look like this:
+(thing, #Year
+ thing, #County
+ thing, #Cases
+ thing, #Cases that are HIV+
+ thing, #Cases that are HIV+ (%)
+ thing) #Topic
+And then define #Topic as "Infectious Syphilis" or "Early Latent Syphilis" etc. This means you have a lot more tuples, but they're all far smaller. (This is also an idea setup for the database.)
+
+** For now we can totally just convert 'n/a' to 0. I wouldn't worry about it.
+
+** I removed your question about defining the variable twice. The answer:
+csv.find('"') finds the first " character in csv and returns its position.
+So then I say "Okay, have the csv = everything in csv except that character."
+But what if there's more than one? Then I need to check for the next one! So I check again with another smudge = csv.find('"'), and this happens in the while loop forever until there are no more " marks, or no more smudges. When you run csv.find('"') and there isn't a ", then it returns -1. So basically, the code reads:
+
+look for a smudge
+so long as there is a smudge
+    csv = everything in the csv but the smudge
+    look for another smudge
+
+** The only change I actually made to your code is you forgot a .csv in your elif statement. Everything else is either comments or print statements!
+
+** Lastly, I'd like to remind you that you totally jumped into the more difficult task, man! If you had worked on '_Condensed . STDS by County' instead of '_Condensed . STDS by HIV Status' you would have had a much easier time; therefore your efforts are worth at least double the applause! Keep it up!

@@ -40,7 +40,7 @@ def Prep_For_The_Database(how_so,csv):
     elif how_so == "Florida Charts_HIVAIDS Age.csv":
         return _Format_FLCharts_Diseases(csv,ERR,'HIV+AIDS Deaths Age-Adjusted')
 
-    elif how_so == "Florida Health_STDs by HIV Status 2008":
+    elif how_so == "Florida Health_STDs by HIV Status 2008.csv":
         return _Format_FLHealth_Diseases(csv,ERR,'STDs by HIV Status-2008')
         
 ##    elif how_so == "Florida Health_Births.csv":
@@ -79,6 +79,11 @@ def _Format_FLHealth_Diseases(csv,ERR,repeat):
     csv = csv.split('\n')
     for d in xrange(len(csv)):
         csv[d] = csv[d].split(',')
+
+    print "Here comes the big one."
+    for thing in csv:
+        print thing,"\n"
+    print "And there it goes."
 
     # Fill in age row
     suggestion = "COUNTIES"
@@ -129,16 +134,18 @@ def _Format_FLHealth_Diseases(csv,ERR,repeat):
                    columns[1][ROW],     #Chlymadia Cases that are HIV+ (%)
                    columns[1][ROW],     #Gonorrhea Cases
                    columns[1][ROW],     #Gonorrhea Cases that are HIV+
-                   columns[1][ROW])     #Gonorrhea Cases that are HIV+ (%)                                         
+                   columns[1][ROW])     #Gonorrhea Cases that are HIV+ (%)
+            print tup
             final_tuples.append(tup)
 
     print "COMPLETE!"
-    return final_tuples
+    for tup in final_tuples:
+        print tup
+    #return final_tuples
     
 def _Format_FLCharts_Births(csv,ERR,repeat):
     
     # Cleans out " marks
-    # Isn't defining the variable twice a bad idea? Might modify this.
     smudge = csv.find('"')
     while smudge != -1:
         csv = csv[:smudge] + csv[smudge+1:]
