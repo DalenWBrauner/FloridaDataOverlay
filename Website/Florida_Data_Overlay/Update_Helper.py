@@ -41,7 +41,19 @@ def Prep_For_The_Database(how_so,csv):
         return _Format_FLCharts_Diseases(csv,ERR,'HIV+AIDS Deaths Age-Adjusted')
 
     elif how_so == "Florida Health_STDs by HIV Status 2008.csv":
-        return _Format_FLHealth_Diseases(csv,ERR,'STDs by HIV Status-2008')
+        return _Format_FLHealth_Diseases(csv,ERR,'STDs by HIV Status-2008',2008)
+
+    elif how_so == "Florida Health_STDs by HIV Status 2009.csv":
+        return _Format_FLHealth_Diseases(csv,ERR,'STDs by HIV Status-2009',2009)
+
+    elif how_so == "Florida Health_STDs by HIV Status 2010.csv":
+        return _Format_FLHealth_Diseases(csv,ERR,'STDs by HIV Status-2010',2010)
+
+    elif how_so == "Florida Health_STDs by HIV Status 2011.csv":
+        return _Format_FLHealth_Diseases(csv,ERR,'STDs by HIV Status-2008',2011)
+
+    elif how_so == "Florida Health_STDs by HIV Status 2011.csv":
+        return _Format_FLHealth_Diseases(csv,ERR,'STDs by HIV Status-2008',2011)
         
 ##    elif how_so == "Florida Health_Births.csv":
 ##        print "FORMATTING '" + how_so + "' INCOMPLETE"
@@ -57,12 +69,13 @@ def Prep_For_The_Database(how_so,csv):
 
 
 ## PRIVATE FUNC()S
-def _Format_FLHealth_Diseases(csv,ERR,repeat):
-    
-    # This should be changed to something more dyanimic,
-    # but the year isn't written anywhere in the sheet
-    year = 2008
-    
+def _Format_FLHealth_Diseases(csv,ERR,topic,year):
+
+    # Formats from String to Compound List
+    csv = csv.split('\n')
+    for d in xrange(len(csv)):
+        csv[d] = csv[d].split(',')
+        
     # Remove useless rows, leaving nothing but data
     useful=csv[2:-2]
 
@@ -74,22 +87,22 @@ def _Format_FLHealth_Diseases(csv,ERR,repeat):
             ERR += "Not all rows are the same length!"
             ERR += "\n\t(Are there too many commas in the csv?)"
             raise Exception(ERR)
+        
+    # Changes 'n/a' into '0'
+    for line in useful:
+        while 'n/a' in line:
+            loc=line.index('n/a')
+            del line[loc]
+            line.insert(loc,'0.000')
 
-    # Formats from String to Compound List
-    csv = csv.split('\n')
-    for d in xrange(len(csv)):
-        csv[d] = csv[d].split(',')
-
-    print "Here comes the big one."
-    for thing in csv:
-        print thing,"\n"
-    print "And there it goes."
+##    print "Here comes the big one."
+##    for thing in csv:
+##        print thing,"\n"
+##    print "And there it goes."
 
     # Fill in age row
     suggestion = "COUNTIES"
-    for idx in xrange(len(useful[0])): #just wondering, do we need xrange here? Seems easier without
-        # Is this even implemented correctly? Seems suggestion would only get updated with last value
-        # Maybe I'mm just being stupid
+    for idx in xrange(len(useful[0])): 
         if  useful[0][idx] == '':
             useful[0][idx] = suggestion
         else:
@@ -97,51 +110,31 @@ def _Format_FLHealth_Diseases(csv,ERR,repeat):
 
     # Convert to columns
     columns = []
-    for age in xrange(len(useful[0])): # see above
+    for age in xrange(len(useful[0])): 
         a_column = []
         for row in useful:
             a_column.append(row[age])
         columns.append(a_column)
-
-    # Remove 'Totals' columns
-    colmod = 0
-    for col in xrange(len(columns)):
-        c = col - colmod
-        if ('Total' in columns[c][0]) or 'Total' in columns[c][1]:
-            columns.pop(c)
-            colmod += 1
-            
-    # Convert to tuples in format:
-    # Not sure where RESOURCE item goes in here
-    # At some point we should decide what to turn 'n/a' into
-    # HIS IS ALMOST CERTAINLY COMPLETELY MESSED UP
+        
+    # Convert to tuples in format (Year, County, Topic, and Topic's cases):
     final_tuples = []
-    for COL in xrange(1,len(columns)-1):
-        for ROW in xrange(2,len(columns[COL])):                
-            tup = (year,                #Year
-                   columns[0][ROW],     #County
-                   columns[1][ROW],     #Infectious Syphilis Cases
-                   columns[2][ROW],     #Infectious Syphilis Cases that are HIV+
-                   columns[3][ROW],     #Infectious Syphilis Cases that are HIV+ (%)
-                   columns[4][ROW],     #Early Latent Syphilis Cases
-                   columns[5][ROW],     #Early Latent Syphilis Cases that are HIV+
-                   columns[6][ROW],     #Early Latent Syphilis Cases that are HIV+ (%)
-                   columns[1][ROW],     #Late/Latent Syphilis Cases
-                   columns[1][ROW],     #Late/Latent Syphilis Cases that are HIV+
-                   columns[1][ROW],     #Late/Latent Syphilis Cases that are HIV+ (%)
-                   columns[1][ROW],     #Chlymadia Cases
-                   columns[1][ROW],     #Chlymadia Cases that are HIV+
-                   columns[1][ROW],     #Chlymadia Cases that are HIV+ (%)
-                   columns[1][ROW],     #Gonorrhea Cases
-                   columns[1][ROW],     #Gonorrhea Cases that are HIV+
-                   columns[1][ROW])     #Gonorrhea Cases that are HIV+ (%)
-            print tup
+    diseaseList=['Infectious Syphilis','Early Latent Syphilis','Late/Latent Syphilis',
+                 'Chlamydia','Gonorrhea']
+
+    for ROW in xrange(0,len(columns[0])):
+        for topic in xrange(1,14,3):
+            tup = (year,                        #Year
+                    columns[0][ROW],            #County
+                    diseaseList[(topic-1)/3],   #Topic (IS, ELS, L/LS, C, G)
+                    columns[topic][ROW],        #Topic's cases
+                    columns[topic+1][ROW],      #Topic's cases that are HIV+
+                    columns[topic+2][ROW])      #Topic's cases that are HIV+ (%)
             final_tuples.append(tup)
 
-    print "COMPLETE!"
-    for tup in final_tuples:
-        print tup
-    #return final_tuples
+    ##print "COMPLETE!"
+    ##for tup in final_tuples:
+    ##    print tup
+    return final_tuples
     
 def _Format_FLCharts_Births(csv,ERR,repeat):
     

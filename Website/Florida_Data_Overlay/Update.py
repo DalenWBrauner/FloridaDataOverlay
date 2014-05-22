@@ -27,7 +27,11 @@ UPDATE_THESE = ["Florida Charts_First Births.csv",      # 0
                 "Florida Charts_HIVAIDS Crude.csv",     # 5
                 "Florida Health_Births.csv",            # 6
                 "Florida Health_Diseases.csv",          # 7
-                "Florida Health_STDs by HIV Status 2008.csv" #8
+                "Florida Health_STDs by HIV Status 2008.csv", #8
+                "Florida Health_STDs by HIV Status 2009.csv", #9
+                "Florida Health_STDs by HIV Status 2010.csv", #10
+                "Florida Health_STDs by HIV Status 2011.csv", #11
+                "Florida Health_STDs by HIV Status 2012.csv" #12
                 ]
 
 
@@ -93,11 +97,13 @@ def Upload(where_from,data):
 ##        t0=time()
 ##        with transaction.atomic():
 ##            for line in data:
-##                #This probably isn't right either
 ##                HivDiseases(year=   int(line[0]),
 ##                            county= line[1],
-##                            #source=    ?
-##                            #Temporarily leaving this blank
+##                            topic=  line[2],
+##                            topic_num= int(line[3]),
+##                            topic_hiv= int(line[4]),
+##                            topic_rate= 100*int(line[5])),
+##                            ).save()
                 
     else:
         ERR = "No upload procedure written for " + where_from
