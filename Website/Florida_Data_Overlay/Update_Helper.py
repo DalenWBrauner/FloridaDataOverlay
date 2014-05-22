@@ -250,7 +250,10 @@ def _Format_FLCharts_Diseases(csv,ERR,topic):
                    FLORIDA_CHARTS,      #Source
                    rows[ROW][COL],      #Count
                    rows[ROW][COL+1])    #Rate
-            final_tuples.append(tup)
+            if tup[3]=='' or tup[4]=='' or tup[5]=='':
+                pass
+            else:
+                final_tuples.append(tup)
 
     print "COMPLETE!"
     return final_tuples
