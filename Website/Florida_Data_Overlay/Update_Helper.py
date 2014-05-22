@@ -129,11 +129,13 @@ def _Format_FLHealth_Diseases(csv,ERR,topic,year):
                     columns[topic][ROW],        #Topic's cases
                     columns[topic+1][ROW],      #Topic's cases that are HIV+
                     columns[topic+2][ROW])      #Topic's cases that are HIV+ (%)
-            final_tuples.append(tup)
+            if tup[3]=='' or tup[4]=='' or tup[5]=='':
+                pass
+            else: final_tuples.append(tup)
 
-    ##print "COMPLETE!"
-    ##for tup in final_tuples:
-    ##    print tup
+    print "COMPLETE!"
+    for tup in final_tuples:
+        print tup
     return final_tuples
     
 def _Format_FLCharts_Births(csv,ERR,repeat):
@@ -250,10 +252,7 @@ def _Format_FLCharts_Diseases(csv,ERR,topic):
                    FLORIDA_CHARTS,      #Source
                    rows[ROW][COL],      #Count
                    rows[ROW][COL+1])    #Rate
-            if tup[3]=='' or tup[4]=='' or tup[5]=='':
-                pass
-            else:
-                final_tuples.append(tup)
+            final_tuples.append(tup)
 
     print "COMPLETE!"
     return final_tuples
