@@ -1,0 +1,8 @@
+Florda Data Overlay has one major dependency, which is pyhton-nvd3.
+
+This can be done using pip:
+$ pip install python-nvd3
+$ pip install --upgrade python-nvd3
+$ pip uninstall python-nvd3
+
+For more information visit the pyhton-nvd3 github page at: https://github.com/areski/python-nvd3
